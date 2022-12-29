@@ -3,8 +3,9 @@ class Home extends Controller
 {
     function index()
     {
-        $user = $this->load_model('user');
-        $data = $user->findAll();
-        $this->view("home", ["rows" => $data]);
+        if (isset($_GET["submit"])) {
+            $this->redirect("search/" . urlencode($_GET["search"]));
+        }
+        $this->view("home");
     }
 }

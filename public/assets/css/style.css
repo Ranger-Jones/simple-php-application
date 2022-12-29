@@ -1,0 +1,286 @@
+@import "./variables.css";
+@import "./textStyles.css";
+@import "./inputs.css";
+@import "./margins.css";
+@import "./paddings.css";
+@import "./buttons.css";
+@import "./sizes.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Prompt" sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-color);
+}
+
+.container {
+  display: flex;
+  width: 100vw;
+  background-color: var(--background-color);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-height {
+  height: 100vh;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.align-items-center {
+  display: flex;
+  align-items: center;
+}
+
+.center-horizontal {
+  justify-content: center;
+  display: flex;
+  width: 100%;
+}
+
+.home-icon {
+  color: var(--primary-color);
+  font-size: 64px;
+  padding: 0.2em 5rem;
+}
+.home-icon-label {
+  transition: color 0.5s cubic-bezier(0.895, 0.03, 0.685, 0.22);
+}
+
+.home-icon-label:hover ~ .home-icon {
+  color: var(--secondary-color) !important;
+}
+
+.home-icon:hover ~ .home-icon-label {
+  color: var(--secondary-color) !important;
+}
+
+.icon-label-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.disable-text-decoration {
+  text-decoration: none;
+}
+
+.disable-overflow {
+  overflow: hidden;
+}
+
+.disable-overflow-y {
+  overflow-y: hidden;
+}
+
+.disable-overflow-x {
+  overflow-x: hidden;
+}
+
+.bg-dark {
+  background-color: var(--background-color);
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.justify-content-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.justify-content-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.back-icon-container {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.back-icon {
+  color: var(--text-color);
+  font-size: 42px;
+  transition: color 0.25s ease-in-out;
+  cursor: pointer;
+}
+
+.back-icon:hover {
+  color: var(--primary-color);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--text-color);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input.check-toggle:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input.check-toggle:focus + .slider {
+  box-shadow: 0 0 1px var(--primary-color);
+}
+
+input.check-toggle:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.align-items-baseline {
+  display: flex;
+  align-items: baseline;
+}
+
+.display-grid {
+  display: grid;
+  grid-gap: 4rem;
+  grid-template-columns: auto auto;
+}
+
+.col-8 {
+  grid-column: 8 / 12;
+}
+
+.col-4 {
+  grid-column: 4 / 12;
+}
+
+.rounded-image {
+  border-radius: 50%;
+}
+
+.rounded-corners {
+  border-radius: 2rem;
+}
+
+.rounded-left-corners {
+  border-bottom-left-radius: 2rem;
+  border-top-left-radius: 2rem;
+}
+
+.event-info-image-container {
+  width: 40%;
+  height: 100%;
+}
+
+.event-info-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.event-detail-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.notification-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-color);
+  position: absolute;
+  top: -1000px;
+  transition: top 0.25s;
+}
+
+.active {
+  top: 20px;
+  left: 20px;
+}
+
+.z-10 {
+  z-index: 10;
+}

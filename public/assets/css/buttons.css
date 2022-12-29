@@ -1,0 +1,59 @@
+.auth-button {
+  border-radius: 1rem;
+  padding: 0.5em 1rem;
+  z-index: 8;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  transition: 0.25s all ease-in-out;
+}
+
+.auth-button:hover {
+  background-color: var(--text-color);
+}
+
+.auth-button:hover h4 {
+  color: var(--primary-color);
+}
+
+.button-back {
+  border-radius: 1rem;
+  z-index: 8;
+  padding: 0.5em 1rem;
+  background-color: var(--error-color);
+  cursor: pointer;
+  transition: 0.25s all ease-in-out;
+}
+
+.button-back:hover {
+  background-color: var(--text-color);
+}
+
+.button-back:hover h4 {
+  color: var(--error-color);
+}
+
+.event-join-button {
+  border-radius: 1rem;
+  z-index: 8;
+  height: 64px;
+  padding: 0rem 1rem;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  transition: 0.25s all ease-in-out;
+}
+
+.event-join-button:hover {
+  background-color: var(--text-color);
+}
+
+.event-join-button:hover h4 {
+  color: var(--primary-color);
+}
+
+.disable-button-style {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: var(--background-color);
+  cursor: pointer;
+}

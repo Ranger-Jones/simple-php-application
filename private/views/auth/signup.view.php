@@ -1,38 +1,37 @@
 <?php $this->view("includes/header"); ?>
-<div class="container-fluid">
-    <div class="p-4 mx-auto shadow rounded" style="width: 100%; max-width: 340px; margin-top: 50px;">
-        <h2 class="text-center">RAVING BOOTH</h2>
-        <p>hier könnte ein Logo sein</p>
-        <h3>Sign up</h3>
-        <input class="form-control" type="email" name="email" placeholder="Email">
-        <br>
-        <input class="form-control" type="text" name="username" placeholder="Username">
-        <br>
-        <select class="form-control">
-            <option value="">Pick a gender</option>
-            <option value="female">weiblich</option>
-            <option value="male">männlich</option>
-            <option value="diverse">divers</option>
-            <option value="not_specified">Keine Angabe</option>
-        </select>
-        <br>
-        <select class="form-control">
-            <option value="">Select your course</option>
-            <option value="computer_science">Informatik</option>
-            <option value="business_informatics">Wirtschaftsinformatik</option>
-            <option value="tourism_management">Tourismusmanagement</option>
-            <option value="management">Management</option>
-        </select>
-        <br>
-        <input class="form-control" type="date" name="birthday" placeholder="birthday">
-        <br>
-        <input class="form-control" type="file" name="photoUrl" placeholder="Profile picture">
-        <br>
-        <input class="form-control" type="password" name="password" placeholder="Password">
-        <br>
-        <input class="form-control" type="password" name="password_repeat" placeholder="Repeat password">
-        <br>
-        <button class="btn btn-primary">Sign Up</button>
+
+<div class="container position-absolute">
+    <div class="back-icon-container">
+        <a href="<?= ROOT ?>home" class="disable-text-decoration">
+            <i class="fa fa-home back-icon"></i>
+        </a>
+    </div>
+    <div class="center-horizontal">
+        <form method="post">
+            <h3 class="text-center m-t-5">Sign up</h3>
+            <?= AuthInput::index("Profile Picture", "Profile Picture", get_var("photoUrl"), "photoUrl", "file") ?>
+            <?= AuthInput::index("Username", "Username", get_var("username"), "username", "text") ?>
+            <?= AuthInput::index("Email", "Email", get_var("email"), "email", "email") ?>
+            <?= AuthInput::index("Type your city", "Location", get_var("email"), "location", "text") ?>
+            <?= AuthInput::index("Birthday", "Birthday", get_var("birthday"), "birthday", "date") ?>
+            <?= AuthInput::selection("Pick your course", "Course", $courses, "course") ?>
+            <?= AuthInput::index("Password", "Password", get_var("password"), "password", "password") ?>
+            <?= AuthInput::index("Repeat your password", "Repeat password", get_var("password_repeat"), "password_repeat", "password") ?>
+            <div class="m-t-2"></div>
+            <?php
+            if (!empty($errors)) {
+                echo "<p class='text-error'><b>" . array_values($errors)[0] . "</b></p>";
+            }
+            ?>
+            <div class="justify-content-end ms-t-2">
+                <button class="auth-button">
+                    <h4>Sign up</h4>
+                </button>
+            </div>
+            <div class="center-horizontal m-t-3 m-b-3">
+                <p class="text-center">Already have an Account? <a class="text-primary text-decoration-hover" href="<?= ROOT ?>signup">Login here!</a></p>
+            </div>
+        </form>
     </div>
 </div>
 <?php $this->view("includes/footer"); ?>

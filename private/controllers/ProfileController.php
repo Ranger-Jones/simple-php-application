@@ -3,6 +3,10 @@ class Profile extends Controller
 {
     function index()
     {
-        $this->view("profile/profile");
+        $event = new Event();
+        $createdEvents = $event->find("createdBy", Auth::uid());
+        $this->view("profile/profile", [
+            "createdEvents" => $createdEvents
+        ]);
     }
 }

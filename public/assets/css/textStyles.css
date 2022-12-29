@@ -1,0 +1,76 @@
+@import "./variables.css";
+
+h1 {
+  font-family: "Secular One", sans-serif;
+  color: var(--text-color);
+  font-size: 64px;
+}
+
+h2 {
+  font-family: "Secular One", sans-serif;
+  color: var(--text-color);
+  font-size: 40px;
+}
+
+h3 {
+  font-family: "Secular One", sans-serif;
+  color: var(--text-color);
+  font-size: 32px;
+}
+
+h4 {
+  font-family: "Prompt", sans-serif;
+  color: var(--text-color);
+  font-size: 24px;
+}
+
+p {
+  font-family: "Prompt", sans-serif;
+  color: var(--text-color);
+  font-size: 20px;
+}
+
+p.small {
+  font-size: 16px;
+}
+
+.text-dark {
+  color: var(--background-color);
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.text-error {
+  color: var(--error-color);
+}
+
+.text-color {
+  color: var(--text-color);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.text-decoration-hover {
+  text-decoration: none;
+  transition: text-decoration 0.25s ease-in-out;
+}
+
+.text-decoration-hover:hover {
+  text-decoration: underline;
+}
+
+.text-underlined {
+  text-decoration: underline;
+}
