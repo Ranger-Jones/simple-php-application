@@ -13,7 +13,7 @@ class Item extends Model
     public $itemTypes = [
         "drink" => "Getränk",
         "food" => "Essen",
-        "gadget" => "Gadget", 
+        "gadget" => "Gadget",
         "musicBox" => "MusikBox/Soundanlage"
     ];
 
@@ -21,6 +21,25 @@ class Item extends Model
 
     public function validate($DATA)
     {
+        $this->errors = array();
+
+        if (empty($DATA["name"])) {
+            $this->errors["name"] = "Please type an item name";
+        }
+
+        if (empty($DATA["description"])) {
+            $this->errors["description"] = "Please type an item description";
+        }
+
+        if (empty($DATA["type"])) {
+            $this->errors["type"] = "Please select an item type";
+        }
+
+        if (count($this->errors) == 0) {
+            return true;
+        }
+
+        return false;
     }
 
     public function make_item_id($data)
