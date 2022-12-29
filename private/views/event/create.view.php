@@ -7,7 +7,7 @@
         </a>
     </div>
     <div class="center">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <h3 class="text-center">Create Event</h3>
 
             <p class="text-primary text-center">Step

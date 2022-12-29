@@ -40,20 +40,22 @@ class CreateEvent extends Controller
                 $event->validate($_POST, $_POST["step"]) &&
                 $_POST["step"] == "3"
             ) {
-                $targetDir = "uploads/";
+                $targetDir = $_SERVER['DOCUMENT_ROOT']."/ravingbooth/public/assets/uploads/";
                 $fileName = basename($_FILES["thumbnail"]["name"]);
                 $targetFilePath = $targetDir . $fileName;
                 $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
                 $thumbnail_id = "";
 
                 $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
-                if (in_array($fileType, $allowTypes)) {
+                if (in_array(strtolower($fileType), $allowTypes)) {
                     // Upload file to server
-                    if (move_uploaded_file($_FILES["thumbnail"]["tmp_name"], $targetFilePath)) {
+                    $upload = move_uploaded_file($_FILES["thumbnail"]["tmp_name"], $targetFilePath);
+                    echo $upload;
+                    if ($upload) {
                         // Insert image file name into database
                         $thumbnail = new Thumbnail();
 
-                        $thumbnail_data["file_name"] = $_POST["thumbnail"];
+                        $thumbnail_data["file_name"] = $_FILES["thumbnail"]["name"];
                         $thumbnail_data = $thumbnail->make_thumbnail_id($thumbnail_data);
                         $_POST["thumbnail"] = $thumbnail_data["thumbnail_id"];
 
@@ -65,8 +67,7 @@ class CreateEvent extends Controller
                             $statusMsg = "File upload failed, please try again.";
                         }
                     } else {
-                        $statusMsg = "Sorry, there was an error uploading your file.";
-                    }
+                        $statusMsg = "Not uploaded because of error #" . $_FILES["thumbnail"]["error"];                    }
                 } else {
                     $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
                 }
@@ -77,7 +78,7 @@ class CreateEvent extends Controller
             }
 
             if (count($event->errors) != 0) {
-                $errors = $event->errors;
+               $errors = $event->errors;
                 $step = $_POST["step"];
             }
         }

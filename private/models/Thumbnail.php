@@ -2,12 +2,12 @@
 class Thumbnail extends Model
 {
     protected $beforeInsert = [
-        "make_thumbnail_id",
         "set_initial_values"
     ];
 
     protected $allowedColumns = [
         "file_name",
+        "thumbnail_id"
     ];
 
     protected $table = "thumbnails";
