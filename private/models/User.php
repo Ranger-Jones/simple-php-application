@@ -25,6 +25,8 @@ class User extends Model
         "management" => "management"
     ];
 
+    protected $table = "users";
+
 
     public function validate($DATA)
     {

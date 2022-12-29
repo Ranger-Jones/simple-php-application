@@ -22,7 +22,7 @@
             </p>
             <p>
                 <i class="fa-solid fa-heart"></i>
-                100
+                <?=$likes?>
             </p>
         </div>
 

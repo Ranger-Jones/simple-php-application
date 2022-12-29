@@ -11,13 +11,11 @@ class Items extends Controller
         $this->view("item/detail");
     }
 
-    function create($event_id = "", $search = "")
+    function create()
     {
-        if (empty($event_id)) {
-            $this->redirect("home");
-        }
+        $item = new Item();
 
-        $this->view("item/create");
+        $this->view("item/create", ["itemTypes" => $item->itemTypes]);
     }
 
     function add($event_id = "", $search = "")

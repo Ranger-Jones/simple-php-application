@@ -15,5 +15,5 @@
     <title>RavingBooth</title>
 </head>
 
-<body>
+<body class="bg-dark">
     <div class="disable-overflow-x">

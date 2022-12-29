@@ -8,5 +8,5 @@ class JoinedEvent extends Model
         "joined_date"
     ];
 
-    
+    protected $table = "joinedevents";
 }

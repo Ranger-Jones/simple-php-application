@@ -3,7 +3,7 @@
     <div class="input-thumbnail-container">
         <input class="input-thumbnail" name="thumbnail" id="imgInp" type="file" />
 
-        <img alt="thumbnail" id="img" class="input-thumbnail-picture" />
+        <img alt="d" id="img" class="input-thumbnail-picture" />
 
         <div class="input-thumbnail-fallback" id="imgFallback"></div>
 
@@ -20,10 +20,10 @@
         if (file) {
             img.src = URL.createObjectURL(file)
             disableImageFallback("none", "imgFallback");
-            disableImageFallback("block", "img");
+            //disableImageFallback("block", "img");
         } else {
             disableImageFallback("block", "imgFallback");
-            disableImageFallback("none", "img");
+            //disableImageFallback("none", "img");
         }
     }
 

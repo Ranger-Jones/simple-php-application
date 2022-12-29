@@ -16,6 +16,8 @@ class Event extends Model
         "public",
     ];
 
+    protected $table = "events";
+
     private function check_first_step($title, $description)
     {
         $errors = array();

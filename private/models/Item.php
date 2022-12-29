@@ -10,6 +10,15 @@ class Item extends Model
         "photoUrl"
     ];
 
+    public $itemTypes = [
+        "drink" => "Getränk",
+        "food" => "Essen",
+        "gadget" => "Gadget", 
+        "musicBox" => "MusikBox/Soundanlage"
+    ];
+
+    protected $table = "items";
+
     public function validate($DATA)
     {
     }

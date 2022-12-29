@@ -5,8 +5,8 @@
             <i class="fa fa-home back-icon"></i>
         </a>
     </div>
-    <div class="column">
-        <div class="row center-horizontal p-h-5 m-t-5">
+    <div class="column w-100">
+        <div class="row center-horizontal m-t-5">
             <div class="display-grid">
                 <div class="center">
                     <img class="rounded-image" src="https://i.pinimg.com/474x/36/98/6c/36986c5f14b9153e5c4247c4ce837f52.jpg" alt="">
@@ -33,9 +33,8 @@
                 </div>
             </div>
         </div>
-        <div class="center-horizontal m-t-1">
-            <div class="row w-70 justify-content-between">
-
+        <div class="center-horizontal m-t-2">
+            <div class="w-50 row justify-content-between">
                 <h2 class="text-secondary text-underlined">Created Events</h2>
                 <h2>Joined Events</h2>
                 <h2>Liked Events</h2>
@@ -45,9 +44,13 @@
             <?php foreach ($createdEvents as $createdEvent) {
                 $user = new User();
                 $creator = $user->find("uid", $createdEvent->createdBy)[0];
-                EventInfo::index($createdEvent, $creator);
+                $likedEvents = new LikedEvent();
+                $likedUsers = $likedEvents->find("event_id", $createdEvent->event_id);
+                $likes = $likedUsers ? count($likedUsers) : 0;
+                EventInfo::index($createdEvent, $creator, $likes);
             } ?>
         </div>
+
     </div>
 </div>
 <?php $this->view("includes/footer"); ?>

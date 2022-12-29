@@ -9,4 +9,6 @@ class Thumbnail extends Model
     protected $allowedColumns = [
         "file_name",
     ];
+
+    protected $table = "thumbnails";
 }
