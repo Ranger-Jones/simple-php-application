@@ -6,6 +6,7 @@
                 <div class="center-horizontal">
                     <h1 class="text-primary">RavingBooth</h1>
                 </div>
+                TESTTETETETETETETETETETETETTEETETET
                 <form action="get" name="searchForm">
                     <div class="search-bar-container m-t-1">
                         <button type="submit" name="submit" class="disable-input-decoration" style="opacity: 0;"></button><i class="fa fa-search input-icon"></i>
