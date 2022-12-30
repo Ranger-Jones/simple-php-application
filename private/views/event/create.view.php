@@ -1,6 +1,6 @@
 <?php $this->view("includes/header"); ?>
 
-<div class="container position-relative">
+<div class="container full-height position-relative">
     <div class="back-icon-container">
         <a href="<?= ROOT ?>home" class="disable-text-decoration">
             <i class="fa fa-home back-icon"></i>

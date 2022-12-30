@@ -1,16 +1,18 @@
 <?php
-class Thumbnail extends Model
+class Image extends Model
 {
     protected $beforeInsert = [
         "set_initial_values"
     ];
 
     protected $allowedColumns = [
-        "file_name",
-        "user_photo_id"
+        "original_file_name",
+        "image_id",
+        "use_case",
+        "image_type"
     ];
 
-    protected $table = "user_photos";
+    protected $table = "images";
 
 
     public function set_initial_values($data)

@@ -69,10 +69,14 @@ class Events extends Controller
                 $liked_users = $likedEvents->find("event_id", $event_id);
 
                 $thumbnailSrc = get_image(
-                    "Thumbnail",
                     $event_result->thumbnail,
-                    "thumbnail_id"
+                    "thumbnails"
                 );
+
+                if (!empty($search)) {
+                    $search = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+                    $search = urldecode($search);
+                }
 
                 $this->view("event/detail", [
                     "event" => $event_result,

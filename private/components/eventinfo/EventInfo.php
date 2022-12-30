@@ -5,9 +5,8 @@ class EventInfo extends Component
     public static function index($event, $user, $likes, $search = "")
     {
         $thumbnailSrc = get_image(
-            "Thumbnail",
             $event->thumbnail,
-            "thumbnail_id"
+            "thumbnails"
         );
 
         Component::create("eventinfo", [

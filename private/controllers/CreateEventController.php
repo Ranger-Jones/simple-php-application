@@ -40,7 +40,7 @@ class CreateEvent extends Controller
                 $event->validate($_POST, $_POST["step"], $_FILES) &&
                 $_POST["step"] == "3"
             ) {
-                $_POST = $event->uploadImage($_POST, $_FILES, "Thumbnail", "thumbnail", "thumbnails", "thumbnail_id", "thumbnail");
+                $_POST = $event->uploadImage($_POST, $_FILES, "thumbnail", "thumbnails", "thumbnail", "thumbnail");
                 if ($_POST) {
                     $event->insert($_POST);
                 } else {

@@ -77,14 +77,14 @@ class Model extends Database
         return $this->query($query);
     }
 
-    public function uploadImage($data, $files, $imageModel, $inputName, $destination, $resultName, $dataResultName)
+    public function uploadImage($data, $files, $inputName, $destination, $dataResultName, $useCase)
     {
-        $image = new $imageModel;
+        $image = new Image();
 
         do {
             $image_id = random_string(60);
 
-            $result = $image->find($resultName, $image_id);
+            $result = $image->find("image_id", $image_id);
         } while ($result);
 
         $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/ravingbooth/public/assets/uploads/" . $destination . "/";
@@ -99,8 +99,9 @@ class Model extends Database
         if (in_array(strtolower($fileType), $allowTypes)) {
             $upload = move_uploaded_file($_FILES[$inputName]["tmp_name"], $targetFilePath);
             if ($upload) {
-                $image_data["file_name"] = $_FILES[$inputName]["name"];
-                $image_data[$resultName] = $image_id;
+                $image_data["original_file_name"] = $_FILES[$inputName]["name"];
+                $image_data["image_id"] = $image_id;
+                $image_data["image_type"] = $fileType;
 
                 $data[$dataResultName] = $image_id;
                 $image->insert($image_data);
