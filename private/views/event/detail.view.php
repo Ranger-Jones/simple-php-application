@@ -38,10 +38,14 @@
                     </div>
                 </div>
                 <div class="row justify-content-between w-40">
+
                     <p>
                         <i class="fa-solid fa-calendar"></i>
+
                         <?= $event->createdAt ?>
+
                     </p>
+
                     <p>
                         <i class="fa-solid fa-map-location-dot"></i>
                         <?= $event->location ?>
@@ -54,10 +58,12 @@
                             </p>
                         </button>
                     </form>
-                    <p>
-                        <i class="fa-solid fa-user-group"></i>
-                        <?= count($uid_list) ?>
-                    </p>
+                    <a class="disable-text-decoration" href="<?= ROOT ?>events/users/<?= $event->event_id ?>">
+                        <p>
+                            <i class="fa-solid fa-user-group"></i>
+                            <?= count($uid_list) ?>
+                        </p>
+                    </a>
                 </div>
                 <h3>Description</h3>
                 <p><?= $event->description ?></p>

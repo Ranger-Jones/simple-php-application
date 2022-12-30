@@ -95,4 +95,32 @@ class Events extends Controller
             }
         }
     }
+
+    function users($eventId = "", $search = "")
+    {
+        if (empty($eventId)) {
+            $this->redirect("home");
+        }
+
+        $joinedEventModel = new JoinedEvent();
+        $userModel = new User();
+
+        $joinedEventUserRows = $joinedEventModel->find("event_id", $eventId);
+        $joinedUsers = array();
+
+        if ($joinedEventUserRows) {
+            foreach ($joinedEventUserRows as $row) {
+                $userRow = $userModel->find("uid", $row->uid);
+                if ($userRow) {
+                    array_push($joinedUsers, $userRow[0]);
+                }
+            }
+        }
+
+        $this->view("event/users", [
+            "joinedUsers" => $joinedUsers,
+            "eventId" => $eventId,
+            "search" => $search,
+        ]);
+    }
 }
