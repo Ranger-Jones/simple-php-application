@@ -136,7 +136,7 @@
 }
 
 .back-icon-container {
-  position: absolute;
+  position: fixed;
   top: 2rem;
   left: 2rem;
 }
@@ -283,4 +283,10 @@ input.check-toggle:checked + .slider:before {
 
 .z-10 {
   z-index: 10;
+}
+
+.profile-picture-normal {
+  width: 15vw;
+  height: 15vw;
+  object-fit: cover;
 }
