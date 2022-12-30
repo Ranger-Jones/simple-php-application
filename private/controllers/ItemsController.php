@@ -10,6 +10,8 @@ class Items extends Controller
             $this->redirect("home");
         }
 
+
+
         $this->view("item/detail");
     }
 
@@ -19,8 +21,13 @@ class Items extends Controller
 
         if (count($_POST) > 0 && isset($_POST['create'])) {
             if ($item->validate($_POST)) {
-                $item->insert($_POST);
-                $this->redirect("home");
+                $_POST = $item->uploadImage($_POST, $_FILES, "photoUrl", "item_photos", "photoUrl", "itemPicture");
+                if ($_POST) {
+                    $item->insert($_POST);
+                    $this->redirect("home");
+                } else {
+                    $errors = $item->errors;
+                }
             }
 
             if (count($item->errors) != 0) {
@@ -30,16 +37,43 @@ class Items extends Controller
 
         $this->view("item/create", [
             "itemTypes" => $item->itemTypes,
+            "amountTypes" => $item->amount_types,
             "errors" => $errors,
         ]);
     }
 
-    function add($event_id = "", $search = "")
+    function add($eventId = "", $itemId = "", $search = "")
     {
-        if (empty($event_id)) {
+        if (empty($eventId)) {
             $this->redirect("home");
         }
 
-        $this->view("item/add");
+        $items = array();
+        $itemModel = new Item();
+        $item = $itemModel->find("item_id", $itemId);
+
+        if ($item) {
+            $item = $item[0];
+            if (count($_POST) > 0 && isset($_POST["add"])) {
+                $eventItemModel = new EventItem();
+                if ($eventItemModel->validate($_POST)) {
+                    $_POST["event_id"] = $eventId;
+                    $_POST["item_id"] = $itemId;
+                    $_POST["item_name"] = $item->name;
+                    $_POST["amount_type"] = $item->amount_type;
+
+                    $eventItemModel->insert($_POST);
+                    $this->redirect("events/" . $eventId);
+                }
+            }
+        } else {
+            $items = $itemModel->findAll();
+        }
+
+        $this->view("item/add", [
+            "eventId" => $eventId,
+            "items" => $items,
+            "item" => $item,
+        ]);
     }
 }
