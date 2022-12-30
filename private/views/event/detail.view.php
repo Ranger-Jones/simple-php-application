@@ -1,24 +1,22 @@
 <?php $this->view("includes/header"); ?>
 <div class="container full-height">
     <div class="back-icon-container">
-        <a href=<?php echo empty($search) ? ROOT . "home" : ROOT . "search/" . urlencode($search) ?>
-            class="disable-text-decoration">
+        <a href=<?php echo empty($search) ? ROOT . "home" : ROOT . "search/" . urlencode($search) ?> class="disable-text-decoration">
             <i class="fa fa-arrow-left back-icon"></i>
         </a>
     </div>
 
-    <div class="notification-container rounded-corners p-2 <?php echo empty($notifications) ? "" : "active" ?>"
-        id="notification-box">
+    <div class="notification-container rounded-corners p-2 <?php echo empty($notifications) ? "" : "active" ?>" id="notification-box">
         <?php foreach ($notifications as $notification_type => $notification_message) : ?>
-        <div class="row justify-content-between align-items-center">
+            <div class="row justify-content-between align-items-center">
 
-            <h3><?= $notification_type ?></h3>
-            <a id="notification-close" class="disable-text-decoration">
-                <h3><i class="fa-solid fa-close"></i></h3>
-            </a>
+                <h3><?= $notification_type ?></h3>
+                <a id="notification-close" class="disable-text-decoration">
+                    <h3><i class="fa-solid fa-close"></i></h3>
+                </a>
 
-        </div>
-        <p><?= $notification_message ?></p>
+            </div>
+            <p><?= $notification_message ?></p>
         <?php endforeach; ?>
 
     </div>
@@ -64,13 +62,54 @@
                 <h3>Description</h3>
                 <p><?= $event->description ?></p>
 
+
                 <div class="row align-items-center">
                     <h3>Item</h3>
-                    <a href="<?= ROOT ?>items/add/<?= $event->event_id ?>/<?= $search ?>/"
-                        class="disable-text-decoration">
-                        <h4 class="m-l-1"><i class="fa-solid fa-circle-plus"></i></h4>
-                    </a>
+                    <?php if ($user_joined) : ?>
+                        <a href="<?= ROOT ?>items/add/<?= $event->event_id ?>/<?= $search ?>/" class="disable-text-decoration">
+                            <h4 class="m-l-1 change-color-on-hover"><i class="fa-solid fa-circle-plus"></i></h4>
+                        </a>
+                    <?php endif; ?>
                 </div>
+
+                <?php if (!empty($items)) : ?>
+                    <table class="justify-space-between" style="width: 80%;">
+                        <tr>
+                            <th>
+                                <h4 class="text-primary text-start">Item</h4>
+                            </th>
+                            <th>
+                                <h4 class="text-primary text-start">Who</h4>
+                            </th>
+                            <th>
+                                <h4 class="text-primary text-start">Amount</h4>
+                            </th>
+                        </tr>
+                        <?php foreach ($items as $item) : ?>
+                            <?php
+                            $userModel = new User();
+                            $user = $userModel->find("uid", $item->added_by)[0];
+                            ?>
+                            <tr>
+                                <td>
+                                    <p><?= $item->item_name ?></p>
+                                </td>
+                                <td>
+                                    <p><?= $user->username ?></p>
+                                </td>
+                                <td>
+                                    <p><?= $item->amount ?> <?= $item->amount_type ?></p>
+                                </td>
+                            </tr>
+
+                        <?php endforeach; ?>
+
+                    </table>
+                <?php else : ?>
+                    <p>No items added</p>
+
+                <?php endif; ?>
+
 
                 <h3>Comments</h3>
                 <?= AuthInput::index("", "", "", "", "") ?>
@@ -82,13 +121,11 @@
 <p id="demo"></p>
 
 <script>
+    const link = document.getElementById("notification-close");
+    const notification = document.getElementById("notification-box");
 
-
-const link = document.getElementById("notification-close");
-const notification = document.getElementById("notification-box");
-
-link.addEventListener("click", function handleClick() {
-    notification.classList.remove("active");
-})
+    link.addEventListener("click", function handleClick() {
+        notification.classList.remove("active");
+    })
 </script>
 <?php $this->view("includes/footer"); ?>
