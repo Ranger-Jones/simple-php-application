@@ -7,7 +7,8 @@ class Item extends Model
         "name",
         "type",
         "description",
-        "photoUrl"
+        "photoUrl",
+        "amount_type"
     ];
 
     public $itemTypes = [
@@ -15,6 +16,15 @@ class Item extends Model
         "food" => "Essen",
         "gadget" => "Gadget",
         "musicBox" => "MusikBox/Soundanlage"
+    ];
+
+    public $amount_types = [
+        "l" => "l",
+        "ml" => "ml",
+        "kg" => "kg",
+        "g" => "g",
+        "m" => "m",
+        "pc" => "pc",
     ];
 
     protected $table = "items";
@@ -25,10 +35,6 @@ class Item extends Model
 
         if (empty($DATA["name"])) {
             $this->errors["name"] = "Please type an item name";
-        }
-
-        if (empty($DATA["description"])) {
-            $this->errors["description"] = "Please type an item description";
         }
 
         if (empty($DATA["type"])) {

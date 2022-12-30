@@ -78,6 +78,9 @@ class Events extends Controller
                     $search = urldecode($search);
                 }
 
+                $eventItemModel = new EventItem();
+                $items = $eventItemModel->find("event_id", $event_result->event_id);
+
                 $this->view("event/detail", [
                     "event" => $event_result,
                     "uid_list" => $uid_list ? $uid_list : array(),
@@ -87,6 +90,7 @@ class Events extends Controller
                     "user_joined" => $user_joined,
                     "user_liked" => $user_liked,
                     "thumbnailSrc" => $thumbnailSrc,
+                    "items" => $items ? $items : array(),
                 ]);
             }
         }

@@ -102,13 +102,14 @@ class Model extends Database
                 $image_data["original_file_name"] = $_FILES[$inputName]["name"];
                 $image_data["image_id"] = $image_id;
                 $image_data["image_type"] = $fileType;
+                $image_data["use_case"] = $useCase;
 
                 $data[$dataResultName] = $image_id;
                 $image->insert($image_data);
 
                 return $data;
             } else {
-                $this->errors["image"] = "Not uploaded because of error #" . $_FILES["thumbnail"]["error"];
+                $this->errors["image"] = "Not uploaded because of error #" . $_FILES[$inputName]["error"];
             }
         } else {
             $this->errors["image"] = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';

@@ -15,9 +15,7 @@
             </p>
             <?php
             if (!empty($values["description"])) : ?>
-
                 <input class="disable-input-style text-end" style="opacity: 0;" value="<?= $values['description'] ?>" name="description" />
-
             <?php
             endif; ?>
             <div class="row w-40 justify-content-between">
