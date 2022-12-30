@@ -22,7 +22,7 @@
     </div>
     <div class="row">
         <div class="column w-35 h-100">
-            <img src="https://www.nordisch.info/wp-content/uploads/2020/08/rave-party-oslo.jpg" alt="" class="event-detail-image">
+            <img src="<?= $thumbnailSrc ?>" alt="" class="event-detail-image">
         </div>
         <div class="column w-80">
             <div class="m-l-2">

@@ -34,3 +34,22 @@ function random_string($length)
 
     return $text;
 }
+
+function get_image($imageModel, $imageId, $idName)
+{
+    $imageModel = new $imageModel;
+    $imageRows = $imageModel->find($idName, $imageId);
+    $imageRow = $imageRows ? $imageRows[0] : false;
+    $imageSrc = "";
+    $fallbackImage = "https://media1.faz.net/ppmedia/aktuell/1010445575/1.6814999/default-retina/ein-legaler-rave-im-jahr-2017.jpg";
+
+    if ($imageRow) {
+        $file_name = $imageRow->file_name;
+        $imagetype = pathinfo($file_name, PATHINFO_EXTENSION);
+        $imageSrc = ASSETS . "uploads/thumbnails/" . $imageRow->$idName . "." . $imagetype;
+    } else {
+        $imageSrc = $fallbackImage;
+    }
+
+    return $imageSrc;
+}

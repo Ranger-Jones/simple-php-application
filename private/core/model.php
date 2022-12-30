@@ -76,4 +76,43 @@ class Model extends Database
                 AGAINST ('$search' IN NATURAL LANGUAGE MODE)";
         return $this->query($query);
     }
+
+    public function uploadImage($data, $files, $imageModel, $inputName, $destination, $resultName, $dataResultName)
+    {
+        $image = new $imageModel;
+
+        do {
+            $image_id = random_string(60);
+
+            $result = $image->find($resultName, $image_id);
+        } while ($result);
+
+        $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/ravingbooth/public/assets/uploads/" . $destination . "/";
+        $fileName = basename($files[$inputName]["name"]);
+        $targetFilePath = $targetDir . $fileName;
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+        $targetFilePath = $targetDir . $image_id . "." . $fileType;
+
+        $allowTypes = array('jpg', 'png', 'jpeg');
+
+        if (in_array(strtolower($fileType), $allowTypes)) {
+            $upload = move_uploaded_file($_FILES[$inputName]["tmp_name"], $targetFilePath);
+            if ($upload) {
+                $image_data["file_name"] = $_FILES[$inputName]["name"];
+                $image_data[$resultName] = $image_id;
+
+                $data[$dataResultName] = $image_id;
+                $image->insert($image_data);
+
+                return $data;
+            } else {
+                $this->errors["image"] = "Not uploaded because of error #" . $_FILES["thumbnail"]["error"];
+            }
+        } else {
+            $this->errors["image"] = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+        }
+
+        return false;
+    }
 }

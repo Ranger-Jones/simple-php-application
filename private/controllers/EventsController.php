@@ -68,6 +68,12 @@ class Events extends Controller
                 $uid_list = $joinedEvents->find("event_id", $event_id);
                 $liked_users = $likedEvents->find("event_id", $event_id);
 
+                $thumbnailSrc = get_image(
+                    "Thumbnail",
+                    $event_result->thumbnail,
+                    "thumbnail_id"
+                );
+
                 $this->view("event/detail", [
                     "event" => $event_result,
                     "uid_list" => $uid_list ? $uid_list : array(),
@@ -76,6 +82,7 @@ class Events extends Controller
                     "notifications" => $notifications,
                     "user_joined" => $user_joined,
                     "user_liked" => $user_liked,
+                    "thumbnailSrc" => $thumbnailSrc,
                 ]);
             }
         }

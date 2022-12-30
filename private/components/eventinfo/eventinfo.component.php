@@ -1,7 +1,7 @@
-<a class="disable-text-decoration event-container bg-primary w-70 h-30 rounded-corners row m-t-1" href="<?= ROOT ?>/events/<?= $event->event_id ?>/<?=$search?>">
+<a class="disable-text-decoration event-container bg-primary w-70 h-30 rounded-corners row m-t-1" href="<?= ROOT ?>/events/<?= $event->event_id ?>/<?= $search ?>">
 
     <div class="event-info-image-container">
-        <img src="https://www.nordisch.info/wp-content/uploads/2020/08/rave-party-oslo.jpg" alt="" class="event-info-image rounded-left-corners">
+        <img src="<?= $thumbnailSrc ?>" alt="" class="event-info-image rounded-left-corners">
     </div>
     <div class="column">
         <div class="m-l-2 m-t-2">
@@ -22,7 +22,7 @@
             </p>
             <p>
                 <i class="fa-solid fa-heart"></i>
-                <?=$likes?>
+                <?= $likes ?>
             </p>
         </div>
 

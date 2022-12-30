@@ -52,17 +52,17 @@ class Event extends Model
         return $errors;
     }
 
-    private function check_third_step($thumbnail)
+    private function check_third_step($files)
     {
         $errors = array();
 
-        if (empty($thumbnail)) {
+        if (empty($files["thumbnail"]["name"])) {
             $errors["thumbnail"] = "Please select a thumbnail!";
         }
 
         return $errors;
     }
-    public function validate($DATA, $step)
+    public function validate($DATA, $step, $files)
     {
         $this->errors = array();
 
@@ -74,7 +74,7 @@ class Event extends Model
                 $this->errors = $this->check_second_step($DATA["startAt"], $DATA["location"]);
                 break;
             case "3":
-                $this->errors = $this->check_third_step($DATA["thumbnail"]);
+                $this->errors = $this->check_third_step($files);
                 break;
         }
 
@@ -83,43 +83,6 @@ class Event extends Model
         }
 
         return false;
-    }
-
-    public function upload_image($file_name)
-    {
-        // File upload path
-        $targetDir = "uploads/";
-        $fileName = basename($_FILES["file"]["name"]);
-        $targetFilePath = $targetDir . $fileName;
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-        $thumbnail_id = "";
-
-        $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
-        if (in_array($fileType, $allowTypes)) {
-            // Upload file to server
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)) {
-                // Insert image file name into database
-                $thumbnail = new Thumbnail();
-
-                $thumbnail_data["file_name"] = $file_name;
-                $thumbnail_data = $thumbnail->make_thumbnail_id($thumbnail_data);
-                $thumbnail_id = $thumbnail_data["thumbnail_id"];
-
-                $insert = $thumbnail->insert($thumbnail_data);
-
-                if ($insert) {
-                    $statusMsg = "The file " . $fileName . " has been uploaded successfully.";
-                } else {
-                    $statusMsg = "File upload failed, please try again.";
-                }
-            } else {
-                $statusMsg = "Sorry, there was an error uploading your file.";
-            }
-        } else {
-            $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
-        }
-
-        return $thumbnail_id;
     }
 
     public function make_event_id($data)
