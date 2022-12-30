@@ -252,6 +252,34 @@ input.check-toggle:checked + .slider:before {
   border-top-left-radius: 2rem;
 }
 
+.event-container {
+  transition: all 0.25s ease-in-out;
+}
+
+.event-info-description-container {
+  transition: all 0.25s ease-in-out;
+}
+
+.event-info-icons-container {
+  transition: all 0.25s ease-in-out;
+}
+
+.event-container:hover {
+  background-color: var(--text-color);
+}
+
+.event-container:hover .column .event-info-description-container p {
+  color: var(--background-color);
+}
+
+.event-container:hover .column .event-info-description-container h3 {
+  color: var(--background-color);
+}
+
+.event-container:hover .column .event-info-icons-container p {
+  color: var(--background-color);
+}
+
 .event-info-image-container {
   width: 40%;
   height: 100%;
@@ -336,4 +364,19 @@ input.check-toggle:checked + .slider:before {
 
 .change-color-on-hover:hover {
   color: var(--primary-color);
+}
+
+.event-user-info-container {
+}
+
+.user-info-image-container {
+  width: 16vw;
+  height: 16vw;
+}
+
+.user-info-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }

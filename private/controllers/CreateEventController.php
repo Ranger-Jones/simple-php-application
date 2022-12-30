@@ -43,10 +43,10 @@ class CreateEvent extends Controller
                 $_POST = $event->uploadImage($_POST, $_FILES, "thumbnail", "thumbnails", "thumbnail", "thumbnail");
                 if ($_POST) {
                     $event->insert($_POST);
+                    $this->redirect("home");
                 } else {
                     $errors = $event->errors;
                 }
-                //$this->redirect("home");
             }
 
             if (count($event->errors) != 0) {
