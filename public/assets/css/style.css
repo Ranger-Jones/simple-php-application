@@ -297,7 +297,7 @@ input.check-toggle:checked + .slider:before {
 
 .event-detail-image {
   object-fit: cover;
-  width: 100%;
+  width: 33%;
   height: 100%;
 }
 

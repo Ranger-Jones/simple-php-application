@@ -2,7 +2,7 @@
 
 class AuthInput extends Component
 {
-    public static function index($placeholder, $label, $value, $name, $type)
+    public static function index($placeholder, $label, $value, $name, $type, $id = "")
     {
         Component::create(
             "authinput",
@@ -12,6 +12,7 @@ class AuthInput extends Component
                 "value" => $value,
                 "name" => $name,
                 "type" => $type,
+                "id" => $id
             ]
         );
     }

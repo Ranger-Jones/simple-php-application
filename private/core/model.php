@@ -63,9 +63,11 @@ class Model extends Database
         return $this->query($query);
     }
 
-    public function find($column, $value)
+    public function find($column, $value, $orderBy = "", $desc = false)
     {
-        $query = "SELECT * FROM $this->table WHERE $column = :value";
+        $descStr = $desc ? " DESC" : "";
+        $orderByStr = empty($orderBy) ? "" : " ORDER BY " . $orderBy;
+        $query = "SELECT * FROM $this->table WHERE $column = :value" . $orderByStr . $descStr;
         return $this->query($query, ["value" => $value]);
     }
 

@@ -1,6 +1,6 @@
 <?php $this->view("includes/header"); ?>
 <div class="container full-height">
-    <div class="back-icon-container">
+    <div class="back-icon-container z-10">
         <a href=<?php echo empty($search) ? ROOT . "home" : ROOT . "search/" . urlencode($search) ?> class="disable-text-decoration">
             <i class="fa fa-arrow-left back-icon"></i>
         </a>
@@ -22,7 +22,7 @@
     </div>
     <div class="row">
         <div class="column w-35 h-100">
-            <img src="<?= $thumbnailSrc ?>" alt="" class="event-detail-image">
+            <img src="<?= $thumbnailSrc ?>" alt="" class="event-detail-image position-fixed w-35">
         </div>
         <div class="column w-80">
             <div class="m-l-2">
@@ -113,18 +113,27 @@
                     </table>
                 <?php else : ?>
                     <p>No items added</p>
-
                 <?php endif; ?>
 
+                <form method="post" name="commentForm">
+                    <h3>Comments</h3>
+                    <?= AuthInput::index("Write something cool", "", get_var("content"), "content", "text", "comment") ?>
+                </form>
 
-                <h3>Comments</h3>
-                <?= AuthInput::index("", "", "", "", "") ?>
+                <?php if ($comments) : ?>
+                    <?php foreach ($comments as $comment) :
+                        $userModel = new User();
+                        $creator = $userModel->find("uid", $comment->created_by)[0];
+                    ?>
+                        <h4><?= $creator->username ?></h4>
+                        <p><?= $comment->content ?></p>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
 
         </div>
     </div>
 </div>
-<p id="demo"></p>
 
 <script>
     const link = document.getElementById("notification-close");
@@ -133,5 +142,15 @@
     link.addEventListener("click", function handleClick() {
         notification.classList.remove("active");
     })
+</script>
+<script>
+    var content = document.getElementById("comment")
+    document.onkeydown = function(evt) {
+        var keyCode = evt ? (evt.which ? evt.which : evt.keyCode) : event.keyCode;
+        if (keyCode == 13) {
+            document.commentForm.submit();
+            content.style.disabled = true;
+        }
+    }
 </script>
 <?php $this->view("includes/footer"); ?>

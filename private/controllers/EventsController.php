@@ -2,6 +2,7 @@
 
 class Events extends Controller
 {
+    public $errors = array();
     function index($event_id = "", $search = "")
     {
 
@@ -65,8 +66,18 @@ class Events extends Controller
                     $notifications["Not logged in"] = "To join an event you need to be logged in! <a href='" . ROOT . "login' class='disable-text-decoration text-bold text-color'>Follow this link to login.</a>";
                 }
 
+                $commentModel = new Comment();
+                if (!empty($_POST["content"])) {
+                    if ($commentModel->validate($_POST)) {
+                        $_POST["event_id"] = $event_result->event_id;
+                        $commentModel->insert($_POST);
+                        $this->redirect("events/" . $event_id . "/" . $search);
+                    }
+                }
+
                 $uid_list = $joinedEvents->find("event_id", $event_id);
                 $liked_users = $likedEvents->find("event_id", $event_id);
+                $comments = $commentModel->find("event_id", $event_id, "posted_at", true);
 
                 $thumbnailSrc = get_image(
                     $event_result->thumbnail,
@@ -91,6 +102,7 @@ class Events extends Controller
                     "user_liked" => $user_liked,
                     "thumbnailSrc" => $thumbnailSrc,
                     "items" => $items ? $items : array(),
+                    "comments" => $comments ? $comments : array(),
                 ]);
             }
         }

@@ -41,7 +41,7 @@ class EventItem extends Model
     {
         $data['event_item_id'] = random_string(60);
 
-        if ($this->find("event_item_id", $data["item_item_id"])) {
+        if ($this->find("event_item_id", $data["event_item_id"])) {
             return $this->make_event_item_id($data);
         }
 
