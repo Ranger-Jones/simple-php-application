@@ -358,6 +358,14 @@ input.check-toggle:checked + .slider:before {
   position: fixed;
 }
 
+.position-absolute {
+  position: absolute;
+}
+
+.countdown-text-container {
+  backdrop-filter: blur(4px) saturate(70%);
+}
+
 .change-color-on-hover {
   transition: color 0.25s ease-in-out;
 }
