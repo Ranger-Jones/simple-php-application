@@ -1,4 +1,4 @@
-<a class="disable-text-decoration event-container bg-primary w-70 h-30 rounded-corners row m-t-1" href="<?= ROOT ?>/events/<?= $event->event_id ?>/<?= $search ?>">
+<a class="disable-text-decoration event-container bg-primary w-70 h-30 rounded-corners row m-t-1" href="<?= ROOT ?>events/<?= $event->event_id ?>/<?= $search ?>">
     <div class="event-info-image-container">
         <img src="<?= $thumbnailSrc ?>" alt="" class="event-info-image rounded-left-corners">
     </div>
