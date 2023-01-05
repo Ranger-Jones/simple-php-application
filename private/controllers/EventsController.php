@@ -58,15 +58,16 @@ class Events extends Controller
                     $user_liked = false;
                 }
 
+                if (isset($_POST["joined"]) && $user_joined) {
+                    $notifications["Already Joined"] = "You are already joined to the event " . $event_result->title . "!";
+                }
+
                 if (isset($_POST["joined"]) && Auth::isLoggedIn() && !$user_joined) {
                     $joinedEvents->insert(["uid" => Auth::uid(), "event_id" => $event_id, "joined_date" => date("Y-m-d h:i:s"), "role" => "raver"]);
                     $notifications["Joining Successful"] = "You are now joined to the event " . $event_result->title . "!";
                     $user_joined = true;
                 }
 
-                if (isset($_POST["joined"]) && $user_joined) {
-                    $notifications["Already Joined"] = "You are already joined to the event " . $event_result->title . "!";
-                }
 
                 if (isset($_POST["joined"]) && !Auth::isLoggedIn()) {
                     $notifications["Not logged in"] = "To join an event you need to be logged in! <a href='" . ROOT . "login' class='disable-text-decoration text-bold text-color'>Follow this link to login.</a>";
@@ -146,20 +147,31 @@ class Events extends Controller
         ]);
     }
 
-    function users($eventId = "", $search = "")
+    function users($eventId = "", $action = "", $uid = "")
     {
         if (empty($eventId)) {
+            $this->redirect("home");
+        }
+
+        $eventModel = new Event();
+        $eventResult = $eventModel->find("event_id", $eventId)[0];
+
+        if (!$eventResult) {
             $this->redirect("home");
         }
 
         $joinedEventModel = new JoinedEvent();
         $userModel = new User();
 
+
         $joinedEventUserRows = $joinedEventModel->find("event_id", $eventId);
         $joinedUsers = array();
         $userRoles = array();
 
+        $isAdmin = false;
+
         if ($joinedEventUserRows) {
+
             foreach ($joinedEventUserRows as $row) {
                 $userRow = $userModel->find("uid", $row->uid);
                 if ($userRow) {
@@ -171,12 +183,43 @@ class Events extends Controller
             }
         }
 
+        if (
+            !empty($action)
+            && !empty($uid)
+            && $userRoles[Auth::uid()] == "Admin"
+            && $eventResult->createdBy != $uid
+        ) {
+            $userToUpdate = false;
+
+            foreach ($joinedEventUserRows as $user) {
+                if ($user->uid == $uid) {
+                    $userToUpdate = $user;
+                }
+            }
+
+            echo var_dump($userToUpdate);
+
+            if ($userToUpdate) {
+                switch ($action) {
+                    case "ta":
+                        $joinedEventModel->update($userToUpdate->id, ["role" => "admin"]);
+                        break;
+                    case "tr":
+                        $joinedEventModel->update($userToUpdate->id, ["role" => "raver"]);
+                        break;
+                    case "ru":
+                        $joinedEventModel->delete($userToUpdate->id);
+                        break;
+                }
+            }
+            $this->redirect("events/users/" . $eventId);
+        }
+
         $this->view("event/users", [
             "joinedUsers" => $joinedUsers,
             "eventId" => $eventId,
-            "search" => $search,
             "userRoles" => $userRoles,
-
+            "eventResult" => $eventResult,
         ]);
     }
 }

@@ -25,16 +25,18 @@
             <img src="<?= $thumbnailSrc ?>" alt="" class="event-detail-image position-fixed">
             <div class="position-fixed w-35" style="top:40%; justify-content: center;">
                 <div class="p-1 m-r-4 m-l-2 countdown-text-container rounded-corners row">
-                    <h2 id="demo" class="text-bold text-center">Loading...</h2>
-                    <?php if ($isAdmin) : ?>
-                        <div class="align-items-center m-l-1">
-                            <a href="<?= ROOT ?>events/edit/<?= $event->event_id ?>/startAt" class="disable-text-decoration cursor-pointer">
-                                <h2 class="change-color-on-hover">
-                                    <i class="fa-solid fa-edit"></i>
-                                </h2>
-                            </a>
-                        </div>
-                    <?php endif; ?>
+                    <div class="center-horizontal">
+                        <h2 id="demo" class="text-bold text-center">Loading...</h2>
+                        <?php if ($isAdmin) : ?>
+                            <div class="align-items-center m-l-1">
+                                <a href="<?= ROOT ?>events/edit/<?= $event->event_id ?>/startAt" class="disable-text-decoration cursor-pointer">
+                                    <h2 class="change-color-on-hover">
+                                        <i class="fa-solid fa-edit"></i>
+                                    </h2>
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -157,7 +159,13 @@
                         $userModel = new User();
                         $creator = $userModel->find("uid", $comment->created_by)[0];
                     ?>
-                        <h4><?= $creator->username ?></h4>
+                        <div class="row">
+                            <h4><?= $creator->username ?></h4>
+
+                            <a href="<?=ROOT?>events/comments/del/<?=$comment->comment_id?>">
+                                <h4><i class="fa-solid fa-delete change-color-on-hover"></i></h4>
+                            </a>
+                        </div>
                         <p><?= $comment->content ?></p>
                     <?php endforeach; ?>
                 <?php endif; ?>
