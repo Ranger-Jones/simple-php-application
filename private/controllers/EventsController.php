@@ -24,6 +24,8 @@ class Events extends Controller
 
                 $user_joined = false;
                 $user_liked = false;
+                $user_role = "";
+                $isAdmin = false;
                 $user_liked_id = 0;
 
                 if (Auth::isLoggedIn()) {
@@ -31,6 +33,10 @@ class Events extends Controller
                         foreach ($uid_list as $uid_row) {
                             if ($uid_row->uid == Auth::uid()) {
                                 $user_joined = true;
+                                $user_role = $uid_row->role;
+                                if ($user_role == "admin") {
+                                    $isAdmin = true;
+                                }
                             }
                         }
                     }
@@ -53,7 +59,7 @@ class Events extends Controller
                 }
 
                 if (isset($_POST["joined"]) && Auth::isLoggedIn() && !$user_joined) {
-                    $joinedEvents->insert(["uid" => Auth::uid(), "event_id" => $event_id, "joined_date" => date("Y-m-d h:i:s")]);
+                    $joinedEvents->insert(["uid" => Auth::uid(), "event_id" => $event_id, "joined_date" => date("Y-m-d h:i:s"), "role" => "raver"]);
                     $notifications["Joining Successful"] = "You are now joined to the event " . $event_result->title . "!";
                     $user_joined = true;
                 }
@@ -103,9 +109,41 @@ class Events extends Controller
                     "thumbnailSrc" => $thumbnailSrc,
                     "items" => $items ? $items : array(),
                     "comments" => $comments ? $comments : array(),
+                    "user_role" => $user_role,
+                    "isAdmin" => $isAdmin,
                 ]);
             }
         }
+    }
+
+    function edit($eventId = "", $field = "")
+    {
+        if (empty($eventId) || !Auth::isLoggedIn()) {
+            $this->redirect("home");
+        }
+
+        if (isset($_POST["update"])) {
+            if (!empty($_POST[$field])) {
+                $eventModel = new Event();
+                $eventRows = $eventModel->find("event_id", $eventId);
+                if ($eventRows) {
+                    $event = $eventRows[0];
+                    $eventModel->update(
+                        $event->id,
+                        [
+                            $field => $_POST[$field],
+                            "updatedAt" => date("Y-m-d h:i:s"),
+                        ]
+                    );
+                    $this->redirect("events/" . $eventId);
+                }
+            }
+        }
+
+        $this->view("event/edit", [
+            "field" => $field,
+            "eventId" => $eventId,
+        ]);
     }
 
     function users($eventId = "", $search = "")
@@ -119,12 +157,16 @@ class Events extends Controller
 
         $joinedEventUserRows = $joinedEventModel->find("event_id", $eventId);
         $joinedUsers = array();
+        $userRoles = array();
 
         if ($joinedEventUserRows) {
             foreach ($joinedEventUserRows as $row) {
                 $userRow = $userModel->find("uid", $row->uid);
                 if ($userRow) {
                     array_push($joinedUsers, $userRow[0]);
+                }
+                if (!empty($row->role)) {
+                    $userRoles[$row->uid] = ucfirst($row->role);
                 }
             }
         }
@@ -133,6 +175,8 @@ class Events extends Controller
             "joinedUsers" => $joinedUsers,
             "eventId" => $eventId,
             "search" => $search,
+            "userRoles" => $userRoles,
+
         ]);
     }
 }

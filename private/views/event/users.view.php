@@ -18,10 +18,18 @@
                     </div>
                     <div class="column m-l-2 m-t-2">
                         <h4><?= $user->username ?></h4>
-                        <p>
-                            <i class="fa-solid fa-map-location-dot"></i>
-                            <?= $user->location ?>
-                        </p>
+                        <div class="row">
+                            <p class="m-r-1">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                <?= $user->location ?>
+                            </p>
+
+                            <p>
+                                <i class="fa-solid fa-user-tie"></i>
+                                <?= $userRoles[$user->uid] ?>
+                            </p>
+
+                        </div>
                     </div>
                 </div>
             </div>

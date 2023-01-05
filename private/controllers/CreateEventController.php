@@ -43,7 +43,10 @@ class CreateEvent extends Controller
                 $_POST = $event->uploadImage($_POST, $_FILES, "thumbnail", "thumbnails", "thumbnail", "thumbnail");
                 if ($_POST) {
                     $event->insert($_POST);
-                    $this->redirect("home");
+                    $created_event = $event->find("createdBy", Auth::uid(), "createdAt", true)[0];
+                    $joinedEventModel = new JoinedEvent();
+                    $joinedEventModel->insert(["uid" => Auth::uid(), "event_id" => $created_event->event_id, "joined_date" => date("Y-m-d h:i:s"), "role" => "admin"]);
+                    $this->redirect("events/" . $created_event->event_id);
                 } else {
                     $errors = $event->errors;
                 }

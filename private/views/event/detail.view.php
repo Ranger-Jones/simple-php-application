@@ -6,7 +6,7 @@
         </a>
     </div>
 
-    <div class="notification-container rounded-corners p-2 <?php echo empty($notifications) ? "" : "active" ?>" id="notification-box">
+    <div class="notification-container rounded-corners p-2 z-10 <?php echo empty($notifications) ? "" : "active" ?>" id="notification-box">
         <?php foreach ($notifications as $notification_type => $notification_message) : ?>
             <div class="row justify-content-between align-items-center">
 
@@ -22,33 +22,49 @@
     </div>
     <div class="row">
         <div class="column w-35 h-100 position-relative">
-
-            <img src="<?= $thumbnailSrc ?>" alt="" class="event-detail-image position-fixed countdown-text-container">
-            <div class="position-absolute center" style="top:40%;">
-                <h2 id="demo" class="p-3 countdown-text-container rounded-corners">Loading...</h2>
+            <img src="<?= $thumbnailSrc ?>" alt="" class="event-detail-image position-fixed">
+            <div class="position-fixed w-35" style="top:40%; justify-content: center;">
+                <div class="p-1 m-r-4 m-l-2 countdown-text-container rounded-corners row">
+                    <h2 id="demo" class="text-bold text-center">Loading...</h2>
+                    <?php if ($isAdmin) : ?>
+                        <div class="align-items-center m-l-1">
+                            <a href="<?= ROOT ?>events/edit/<?= $event->event_id ?>/startAt" class="disable-text-decoration cursor-pointer">
+                                <h2 class="change-color-on-hover">
+                                    <i class="fa-solid fa-edit"></i>
+                                </h2>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
-
         </div>
-        <div class="column w-80">
-            <div class="m-l-2">
+        <div class="column w-100">
+            <div class="ms-l-4">
                 <div class="row">
                     <h1 class="text-secondary"><?= $event->title ?></h1>
+                    <?php if ($isAdmin) : ?>
+                        <div class="align-items-center m-l-1">
+                            <a href="<?= ROOT ?>events/edit/<?= $event->event_id ?>/title" class="disable-text-decoration cursor-pointer">
+                                <h3 class="change-color-on-hover">
+                                    <i class="fa-solid fa-edit"></i>
+                                </h3>
+                            </a>
+                        </div>
+                    <?php endif; ?>
                     <div class="align-items-center m-l-2">
                         <form method="post">
                             <button name="joined" type="submit" class="event-join-button">
-                                <h4><i class="fa-solid fa-joint"></i> <?php echo $user_joined ? "Joined" : "Join" ?>
+                                <h4>
+                                    <i class="fa-solid fa-joint"></i> <?php echo $user_joined ? "Joined" : "Join" ?>
                                 </h4>
                             </button>
                         </form>
                     </div>
                 </div>
                 <div class="row justify-content-between w-40">
-
                     <p>
                         <i class="fa-solid fa-calendar"></i>
-
                         <?= $event->createdAt ?>
-
                     </p>
 
                     <p>
@@ -70,7 +86,18 @@
                         </p>
                     </a>
                 </div>
-                <h3>Description</h3>
+                <div class="row">
+                    <h3>Description</h3>
+                    <?php if ($isAdmin) : ?>
+                        <div class="align-items-center m-l-1">
+                            <a href="<?= ROOT ?>events/edit/<?= $event->event_id ?>/description" class="disable-text-decoration cursor-pointer">
+                                <p class="change-color-on-hover">
+                                    <i class="fa-solid fa-edit"></i>
+                                </p>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
                 <p><?= $event->description ?></p>
 
 

@@ -15,7 +15,7 @@
                 <div class="row center-horizontal m-t-2">
                     <?php if (Auth::isLoggedIn()) : ?>
                         <?= IconLabel::index("fa-solid fa-user", "My Account", "profile") ?>
-                        <?= IconLabel::index("fa-solid fa-champagne-glasses", "Create events", "createEvent") ?>
+                        <?= IconLabel::index("fa-solid fa-champagne-glasses", "Create Event", "createEvent") ?>
                         <?= IconLabel::index("fa-solid fa-people-group", "My Groups") ?>
                     <?php else : ?>
                         <?= IconLabel::index("fa-solid fa-plus", "Create Account", "login") ?>

@@ -364,6 +364,13 @@ input.check-toggle:checked + .slider:before {
 
 .countdown-text-container {
   backdrop-filter: blur(4px) saturate(70%);
+  background-color: var(--background-color-50);
+  /*-webkit-text-stroke: 0.5px var(--background-color);
+  text-stroke: 0.5px var(--background-color);*/
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .change-color-on-hover {
@@ -372,9 +379,6 @@ input.check-toggle:checked + .slider:before {
 
 .change-color-on-hover:hover {
   color: var(--primary-color);
-}
-
-.event-user-info-container {
 }
 
 .user-info-image-container {
