@@ -9,4 +9,12 @@ class Profile extends Controller
             "createdEvents" => $createdEvents
         ]);
     }
+
+    function edit()
+    {
+        $this->view("profile/editprofile", [
+            /*"createdEvents" => $createdEvents*/
+        ]);
+    }
+
 }

@@ -1,9 +1,17 @@
 <?php $this->view("includes/header"); ?>
 <div class="container">
-    <div class="back-icon-container">
-        <a href="<?= ROOT ?>home" class="disable-text-decoration">
-            <i class="fa fa-home back-icon"></i>
-        </a>
+    <div class="row">
+        <div class="back-icon-container">
+            <a href="<?= ROOT ?>home" class="disable-text-decoration">
+                <i class="fa fa-home back-icon"></i>
+            </a>
+        </div>
+        <div class="back-icon-container-right">
+            <?= IconLabel::index("fa fa-gear back-icon", "", "profile/edit") ?>
+            <!--<a href="" class="disable-text-decoration">
+                <i class="fa fa-home back-icon"></i>
+            </a>-->  
+        </div>
     </div>
     <div class="column w-100">
         <div class="row center-horizontal m-t-5">

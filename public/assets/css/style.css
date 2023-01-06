@@ -6,6 +6,7 @@
 @import "./buttons.css";
 @import "./sizes.css";
 
+
 * {
   margin: 0;
   padding: 0;
@@ -139,6 +140,13 @@
   position: absolute;
   top: 2rem;
   left: 2rem;
+}
+
+.back-icon-container-right {
+  position: absolute;
+  top: 2rem;
+  right: -2.3rem;
+
 }
 
 .back-icon {
