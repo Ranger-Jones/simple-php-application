@@ -133,6 +133,35 @@ class Events extends Controller
             $this->redirect("events/" . $eventId);
         }
 
+        $joinedEventModel = new JoinedEvent();
+        $joinedEventResults = $joinedEventModel->find("event_id", $eventId);
+
+        $isAdmin = false;
+
+        if ($joinedEventResults) {
+            foreach ($joinedEventResults as $joinedUser) {
+                if ($joinedUser->uid == Auth::uid()) {
+                    if ($joinedUser->role == "admin") {
+                        $isAdmin = true;
+                    }
+                }
+            }
+        } else {
+            $this->redirect("events/" . $eventId);
+        }
+
+        if ($isAdmin) {
+            $commentModel = new Comment();
+            $commentResults = $commentModel->find("comment_id", $commentId);
+
+            if ($commentResults) {
+                $comment = $commentResults[0];
+                if ($action == "del") {
+                    $commentModel->delete($comment->id);
+                }
+            }
+        }
+
         $this->redirect("events/" . $eventId);
     }
 
