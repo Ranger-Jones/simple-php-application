@@ -97,24 +97,43 @@ class Events extends Controller
                 }
 
                 $eventItemModel = new EventItem();
+                $itemRawModel = new Item();
                 $items = $eventItemModel->find("event_id", $event_result->event_id);
+                $itemsRaw = $itemRawModel->findAll();
 
-                $this->view("event/detail", [
-                    "event" => $event_result,
-                    "uid_list" => $uid_list ? $uid_list : array(),
-                    "liked_users" => $liked_users ? $liked_users : array(),
-                    "search" => $search,
-                    "notifications" => $notifications,
-                    "user_joined" => $user_joined,
-                    "user_liked" => $user_liked,
-                    "thumbnailSrc" => $thumbnailSrc,
-                    "items" => $items ? $items : array(),
-                    "comments" => $comments ? $comments : array(),
-                    "user_role" => $user_role,
-                    "isAdmin" => $isAdmin,
-                ]);
+                $this->view(
+                    "event/detail",
+                    [
+                        "event" => $event_result,
+                        "uid_list" => $uid_list ? $uid_list : array(),
+                        "liked_users" => $liked_users ? $liked_users : array(),
+                        "search" => $search,
+                        "notifications" => $notifications,
+                        "user_joined" => $user_joined,
+                        "user_liked" => $user_liked,
+                        "thumbnailSrc" => $thumbnailSrc,
+                        "items" => $items ? $items : array(),
+                        "comments" => $comments ? $comments : array(),
+                        "user_role" => $user_role,
+                        "isAdmin" => $isAdmin,
+                        "itemsRaw" => $itemsRaw ? $itemsRaw : array(),
+                    ]
+                );
             }
         }
+    }
+
+    function comments($eventId = "", $action = "", $commentId = "")
+    {
+        if (empty($eventId) || !Auth::isLoggedIn()) {
+            $this->redirect("home");
+        }
+
+        if (empty($action) || empty($commentId)) {
+            $this->redirect("events/" . $eventId);
+        }
+
+        $this->redirect("events/" . $eventId);
     }
 
     function edit($eventId = "", $field = "")
