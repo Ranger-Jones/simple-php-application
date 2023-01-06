@@ -7,7 +7,7 @@
         </a>
     </div>
     <div class="center-horizontal">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <h3 class="text-center m-t-5">Sign up</h3>
             <?= AuthInput::index("Profile Picture", "Profile Picture", get_var("photoUrl"), "photoUrl", "file") ?>
             <?= AuthInput::index("Username", "Username", get_var("username"), "username", "text") ?>

@@ -6,7 +6,6 @@
                 <div class="center-horizontal">
                     <h1 class="text-primary">RavingBooth</h1>
                 </div>
-                TESTTETETETETETETETETETETETTEETETET
                 <form action="get" name="searchForm">
                     <div class="search-bar-container m-t-1">
                         <button type="submit" name="submit" class="disable-input-decoration" style="opacity: 0;"></button><i class="fa fa-search input-icon"></i>
@@ -16,7 +15,7 @@
                 <div class="row center-horizontal m-t-2">
                     <?php if (Auth::isLoggedIn()) : ?>
                         <?= IconLabel::index("fa-solid fa-user", "My Account", "profile") ?>
-                        <?= IconLabel::index("fa-solid fa-champagne-glasses", "Create events", "createEvent") ?>
+                        <?= IconLabel::index("fa-solid fa-champagne-glasses", "Create Event", "createEvent") ?>
                         <?= IconLabel::index("fa-solid fa-people-group", "My Groups") ?>
                     <?php else : ?>
                         <?= IconLabel::index("fa-solid fa-plus", "Create Account", "login") ?>

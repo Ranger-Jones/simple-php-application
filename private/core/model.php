@@ -63,9 +63,11 @@ class Model extends Database
         return $this->query($query);
     }
 
-    public function find($column, $value)
+    public function find($column, $value, $orderBy = "", $desc = false)
     {
-        $query = "SELECT * FROM $this->table WHERE $column = :value";
+        $descStr = $desc ? " DESC" : "";
+        $orderByStr = empty($orderBy) ? "" : " ORDER BY " . $orderBy;
+        $query = "SELECT * FROM $this->table WHERE $column = :value" . $orderByStr . $descStr;
         return $this->query($query, ["value" => $value]);
     }
 
@@ -75,5 +77,46 @@ class Model extends Database
                 WHERE MATCH ($searchColumns)
                 AGAINST ('$search' IN NATURAL LANGUAGE MODE)";
         return $this->query($query);
+    }
+
+    public function uploadImage($data, $files, $inputName, $destination, $dataResultName, $useCase)
+    {
+        $image = new Image();
+
+        do {
+            $image_id = random_string(60);
+
+            $result = $image->find("image_id", $image_id);
+        } while ($result);
+
+        $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/ravingbooth/public/assets/uploads/" . $destination . "/";
+        $fileName = basename($files[$inputName]["name"]);
+        $targetFilePath = $targetDir . $fileName;
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+        $targetFilePath = $targetDir . $image_id . "." . $fileType;
+
+        $allowTypes = array('jpg', 'png', 'jpeg');
+
+        if (in_array(strtolower($fileType), $allowTypes)) {
+            $upload = move_uploaded_file($_FILES[$inputName]["tmp_name"], $targetFilePath);
+            if ($upload) {
+                $image_data["original_file_name"] = $_FILES[$inputName]["name"];
+                $image_data["image_id"] = $image_id;
+                $image_data["image_type"] = $fileType;
+                $image_data["use_case"] = $useCase;
+
+                $data[$dataResultName] = $image_id;
+                $image->insert($image_data);
+
+                return $data;
+            } else {
+                $this->errors["image"] = "Not uploaded because of error #" . $_FILES[$inputName]["error"];
+            }
+        } else {
+            $this->errors["image"] = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+        }
+
+        return false;
     }
 }

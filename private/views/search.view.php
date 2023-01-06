@@ -25,14 +25,12 @@
             </div>
             <?php if (!empty($search_results)) : ?>
                 <div class="row center-horizontal p-b-5">
-                    <?php foreach ($search_results as $search_result) {
-                        $user = new User();
-                        $likedEvents = new LikedEvent();
-                        $likedUsers = $likedEvents->find("event_id", $search_result->event_id);
-                        $likes = $likedUsers ? count($likedUsers) : 0;
-                        $creator = $user->find("uid", $search_result->createdBy)[0];
-                        EventInfo::index($search_result, $creator,$likes, $search);
-                    } ?>
+                    <div class="column">
+                        <?php foreach ($search_results as $search_result) {
+
+                            EventInfo::index($search_result, $search);
+                        } ?>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>

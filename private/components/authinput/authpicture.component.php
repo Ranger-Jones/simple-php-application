@@ -1,7 +1,7 @@
 <div class="w-40 m-t-1">
     <h4><?= $label ?></h4>
     <div class="input-thumbnail-container">
-        <input class="input-thumbnail" name="thumbnail" id="imgInp" type="file" />
+        <input class="input-thumbnail" name="<?= $name ?>" id="imgInp" type="file" />
 
         <img alt="d" id="img" class="input-thumbnail-picture" />
 

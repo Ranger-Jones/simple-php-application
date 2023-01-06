@@ -5,8 +5,16 @@ class Profile extends Controller
     {
         $event = new Event();
         $createdEvents = $event->find("createdBy", Auth::uid());
+        if (!$createdEvents) {
+            $createdEvents = array();
+        }
+        $profilePictureSrc = get_image(
+            Auth::getUser()->photoUrl,
+            "user_photos"
+        );
         $this->view("profile/profile", [
-            "createdEvents" => $createdEvents
+            "createdEvents" => $createdEvents,
+            "profilePictureSrc" => $profilePictureSrc
         ]);
     }
 

@@ -13,8 +13,13 @@ class Signup extends Controller
         $courses = $user->courses;
         if (count($_POST) > 0) {
             if ($user->validate($_POST)) {
-                $user->insert($_POST);
-                $this->redirect("login");
+                $_POST = $user->uploadImage($_POST, $_FILES, "photoUrl", "user_photos", "photoUrl", "profilePic");
+                if ($_POST) {
+                    $user->insert($_POST);
+                    $this->redirect("login");
+                } else {
+                    $errors = $user->errors;
+                }
             } else {
                 $errors = $user->errors;
             }

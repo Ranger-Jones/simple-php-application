@@ -100,7 +100,7 @@ class User extends Model
             "tourism_management" => "Tourismusmanagement",
             "management" => "management"
         ];
-        
+
         return $courses[$course];
     }
 

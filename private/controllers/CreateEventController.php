@@ -22,7 +22,7 @@ class CreateEvent extends Controller
 
         if (count($_POST) > 0 && isset($_POST['create'])) {
             if (
-                $event->validate($_POST, $_POST["step"]) &&
+                $event->validate($_POST, $_POST["step"], $_FILES) &&
                 $_POST["step"] == "1"
             ) {
 
@@ -30,50 +30,26 @@ class CreateEvent extends Controller
             }
 
             if (
-                $event->validate($_POST, $_POST["step"]) &&
+                $event->validate($_POST, $_POST["step"], $_FILES) &&
                 $_POST["step"] == "2"
             ) {
                 $step = "3";
             }
 
             if (
-                $event->validate($_POST, $_POST["step"]) &&
+                $event->validate($_POST, $_POST["step"], $_FILES) &&
                 $_POST["step"] == "3"
             ) {
-                $targetDir = "uploads/";
-                $fileName = basename($_FILES["thumbnail"]["name"]);
-                $targetFilePath = $targetDir . $fileName;
-                $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-                $thumbnail_id = "";
-
-                $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
-                if (in_array($fileType, $allowTypes)) {
-                    // Upload file to server
-                    if (move_uploaded_file($_FILES["thumbnail"]["tmp_name"], $targetFilePath)) {
-                        // Insert image file name into database
-                        $thumbnail = new Thumbnail();
-
-                        $thumbnail_data["file_name"] = $_POST["thumbnail"];
-                        $thumbnail_data = $thumbnail->make_thumbnail_id($thumbnail_data);
-                        $_POST["thumbnail"] = $thumbnail_data["thumbnail_id"];
-
-                        $insert = $thumbnail->insert($thumbnail_data);
-
-                        if ($insert) {
-                            $statusMsg = "The file " . $fileName . " has been uploaded successfully.";
-                        } else {
-                            $statusMsg = "File upload failed, please try again.";
-                        }
-                    } else {
-                        $statusMsg = "Sorry, there was an error uploading your file.";
-                    }
+                $_POST = $event->uploadImage($_POST, $_FILES, "thumbnail", "thumbnails", "thumbnail", "thumbnail");
+                if ($_POST) {
+                    $event->insert($_POST);
+                    $created_event = $event->find("createdBy", Auth::uid(), "createdAt", true)[0];
+                    $joinedEventModel = new JoinedEvent();
+                    $joinedEventModel->insert(["uid" => Auth::uid(), "event_id" => $created_event->event_id, "joined_date" => date("Y-m-d h:i:s"), "role" => "admin"]);
+                    $this->redirect("events/" . $created_event->event_id);
                 } else {
-                    $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
+                    $errors = $event->errors;
                 }
-                echo $statusMsg;
-                $event->insert($_POST);
-
-                //$this->redirect("home");
             }
 
             if (count($event->errors) != 0) {

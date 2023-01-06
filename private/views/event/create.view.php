@@ -1,13 +1,13 @@
 <?php $this->view("includes/header"); ?>
 
-<div class="container position-relative">
+<div class="container full-height position-relative">
     <div class="back-icon-container">
         <a href="<?= ROOT ?>home" class="disable-text-decoration">
             <i class="fa fa-home back-icon"></i>
         </a>
     </div>
     <div class="center">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <h3 class="text-center">Create Event</h3>
 
             <p class="text-primary text-center">Step
@@ -15,9 +15,7 @@
             </p>
             <?php
             if (!empty($values["description"])) : ?>
-
                 <input class="disable-input-style text-end" style="opacity: 0;" value="<?= $values['description'] ?>" name="description" />
-
             <?php
             endif; ?>
             <div class="row w-40 justify-content-between">
