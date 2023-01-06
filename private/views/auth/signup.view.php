@@ -29,7 +29,7 @@
                 </button>
             </div>
             <div class="center-horizontal m-t-3 m-b-3">
-                <p class="text-center">Already have an Account? <a class="text-primary text-decoration-hover" href="<?= ROOT ?>signup">Login here!</a></p>
+                <p class="text-center">Already have an Account? <a class="text-primary text-decoration-hover" href="<?= ROOT ?>login">Login here!</a></p>
             </div>
         </form>
     </div>
