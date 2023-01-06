@@ -41,9 +41,11 @@
             </div>
         </div>
         <div class="row center-horizontal p-b-5">
-            <?php foreach ($createdEvents as $createdEvent) {
-                EventInfo::index($createdEvent);
-            } ?>
+            <div class="column">
+                <?php foreach ($createdEvents as $createdEvent) {
+                    EventInfo::index($createdEvent);
+                } ?>
+            </div>
         </div>
 
     </div>

@@ -1,11 +1,17 @@
 <?php $this->view("includes/header"); ?>
-<div class="container full-height">
+<div class="container full-height position-relative">
     <div class="back-icon-container z-10">
         <a href=<?php echo empty($search) ? ROOT . "home" : ROOT . "search/" . urlencode($search) ?> class="disable-text-decoration">
-            <i class="fa fa-arrow-left back-icon"></i>
+            <i class="fa <?php echo empty($search) ? "fa-home" : "fa-arrow-left" ?> back-icon"></i>
         </a>
     </div>
+    <?php if ($event->startAt < date("Y-m-d")) : ?>
 
+        <div class="firework z-10"></div>
+        <div class="firework z-10"></div>
+        <div class="firework z-10"></div>
+
+    <?php endif; ?>
     <div class="notification-container rounded-corners p-2 z-10 <?php echo empty($notifications) ? "" : "active" ?>" id="notification-box">
         <?php foreach ($notifications as $notification_type => $notification_message) : ?>
             <div class="row justify-content-between align-items-center">
@@ -40,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="column w-100">
+        <div class="column w-60">
             <div class="ms-l-4">
                 <div class="row">
                     <h1 class="text-secondary"><?= $event->title ?></h1>
@@ -68,7 +74,6 @@
                         <i class="fa-solid fa-calendar"></i>
                         <?= $event->createdAt ?>
                     </p>
-
                     <p>
                         <i class="fa-solid fa-map-location-dot"></i>
                         <?= $event->location ?>
@@ -112,8 +117,10 @@
                     <?php endif; ?>
                 </div>
 
+
+
                 <?php if (!empty($items)) : ?>
-                    <table class="justify-space-between" style="width: 80%;">
+                    <table class="justify-space-between" style="width: 100%;">
                         <tr>
                             <th>
                                 <h4 class="text-primary text-start">Item</h4>
@@ -129,10 +136,20 @@
                             <?php
                             $userModel = new User();
                             $user = $userModel->find("uid", $item->added_by)[0];
+                            $itemImage = "";
+                            foreach ($itemsRaw as $itemRaw) {
+                                if ($itemRaw->item_id == $item->item_id) {
+                                    $itemImage =
+                                        get_image($itemRaw->photoUrl, "item_photos");
+                                }
+                            }
                             ?>
                             <tr>
                                 <td>
-                                    <p><?= $item->item_name ?></p>
+                                    <div class="row align-items-center">
+                                        <img src="<?= $itemImage ?>" style="width: 20px; height: 20px; object-fit: cover;" />
+                                        <p class="m-l-1"><?= $item->item_name ?></p>
+                                    </div>
                                 </td>
                                 <td>
                                     <p><?= $user->username ?></p>
@@ -161,61 +178,49 @@
                     ?>
                         <div class="row">
                             <h4><?= $creator->username ?></h4>
-
-                            <a href="<?=ROOT?>events/comments/del/<?=$comment->comment_id?>">
-                                <h4><i class="fa-solid fa-delete change-color-on-hover"></i></h4>
+                            <a href="<?= ROOT ?>events/comments/<?= $event->event_id ?>/del/<?= $comment->comment_id ?>">
+                                <h4><i class="fa-solid fa-trash change-color-on-hover-error m-l-1"></i></h4>
                             </a>
                         </div>
-                        <p><?= $comment->content ?></p>
+                        <p class="break-word m-r-1"><?= $comment->content ?></p>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <div class="m-b-1"></div>
             </div>
-
         </div>
     </div>
 </div>
 
 <script>
-    // Set the date we're counting down to
     var countDownDate = new Date("<?= $event->startAt ?>").getTime();
 
-    // Update the count down every 1 second
     var x = setInterval(function() {
 
-        // Get today's date and time
         var now = new Date().getTime();
 
-        // Find the distance between now and the count down date
         var distance = countDownDate - now;
 
-        // Time calculations for days, hours, minutes and seconds
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Display the result in the element with id="demo"
         document.getElementById("demo").innerHTML = days + "d " + hours + "h " +
             minutes + "m " + seconds + "s ";
 
-        // If the count down is finished, write some text
         if (distance < 0) {
             clearInterval(x);
             document.getElementById("demo").innerHTML = "Event is over";
         }
     }, 1000);
-</script>
 
-<script>
     const link = document.getElementById("notification-close");
     const notification = document.getElementById("notification-box");
 
     link.addEventListener("click", function handleClick() {
         notification.classList.remove("active");
     })
-</script>
-<script>
+
     var content = document.getElementById("comment")
     document.onkeydown = function(evt) {
         var keyCode = evt ? (evt.which ? evt.which : evt.keyCode) : event.keyCode;
