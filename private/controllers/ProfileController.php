@@ -17,4 +17,8 @@ class Profile extends Controller
             "profilePictureSrc" => $profilePictureSrc
         ]);
     }
+
+    function edit() {
+        $this->view("profile/edit");
+    }
 }

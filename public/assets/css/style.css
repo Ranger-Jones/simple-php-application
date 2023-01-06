@@ -77,6 +77,7 @@
   font-size: 64px;
   padding: 0.2em 5rem;
 }
+
 .home-icon-label {
   transition: color 0.5s cubic-bezier(0.895, 0.03, 0.685, 0.22);
 }
@@ -121,6 +122,7 @@
   font-weight: bold;
 }
 
+
 .justify-content-end {
   display: flex;
   justify-content: flex-end;
@@ -130,7 +132,7 @@
   display: flex;
   justify-content: space-between;
 }
-
+ 
 .position-relative {
   position: relative;
 }
@@ -139,6 +141,13 @@
   position: fixed;
   top: 2rem;
   left: 2rem;
+}
+
+.back-icon-container-right {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  margin-right: 0;
 }
 
 .back-icon {
