@@ -16,7 +16,7 @@ class Groups extends Controller
 
         if (count($_POST) > 0 && isset($_POST['create'])) {
             if ($group->validate($_POST)) {
-                $_POST = $group->uploadImage($_POST, $_FILES, "thumbnail", "group_thumbnails", "thumbnail", "itemPicture");
+                $_POST = $group->uploadImage($_POST, $_FILES, "thumbnail", "group_thumbnails", "thumbnail", "groupThumbnail");
                 if ($_POST) {
                     $_POST["created_by"] = Auth::uid();
                     $group->insert($_POST);
