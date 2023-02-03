@@ -89,21 +89,27 @@ class Model extends Database
             $result = $image->find("image_id", $image_id);
         } while ($result);
 
-        $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/ravingbooth/public/assets/uploads/" . $destination . "/";
-        $fileName = basename($files[$inputName]["name"]);
-        $targetFilePath = $targetDir . $fileName;
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+        $target_dir = UPLOADDIR . $destination . "/";
+        $target_file = basename($files[$inputName]["name"]);
+        $targetFilePath = $target_dir . $target_file;
+        $imageExt = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+        $targetFilePath = $target_dir . $image_id . "." . $imageExt;
+        $allowed_file_ext = array("jpg", "jpeg", "png");
 
-        $targetFilePath = $targetDir . $image_id . "." . $fileType;
+        if (!file_exists($files[$inputName]["tmp_name"])) {
+            $this->errors["image"] = "Select image to upload.";
+        } else if (!in_array($imageExt, $allowed_file_ext)) {
+            $this->errors["image"] = "Allowed file formats .jpg, .jpeg and .png.";
 
-        $allowTypes = array('jpg', 'png', 'jpeg');
-
-        if (in_array(strtolower($fileType), $allowTypes)) {
-            $upload = move_uploaded_file($_FILES[$inputName]["tmp_name"], $targetFilePath);
-            if ($upload) {
-                $image_data["original_file_name"] = $_FILES[$inputName]["name"];
+        } else if ($files[$inputName]["size"] > 2097152) {
+            $this->errors["image"] = "File is too large. File size should be less than 2 megabytes.";
+        } else if (file_exists($targetFilePath)) {
+            $this->errors["image"] = "File already exists.";
+        } else {
+            if (move_uploaded_file($files[$inputName]["tmp_name"], $targetFilePath)) {
+                $image_data["original_file_name"] = $files[$inputName]["name"];
                 $image_data["image_id"] = $image_id;
-                $image_data["image_type"] = $fileType;
+                $image_data["image_type"] = $imageExt;
                 $image_data["use_case"] = $useCase;
 
                 $data[$dataResultName] = $image_id;
@@ -111,10 +117,8 @@ class Model extends Database
 
                 return $data;
             } else {
-                $this->errors["image"] = "Not uploaded because of error #" . $_FILES[$inputName]["error"];
+                $this->errors["image"] = "Image couldn't be uploaded";
             }
-        } else {
-            $this->errors["image"] = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
         }
 
         return false;

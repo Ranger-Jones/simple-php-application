@@ -1,5 +1,12 @@
 <?php $this->view("includes/header"); ?>
 <div class="container full-height">
+    <?php if(Auth::isLoggedIn()):?>
+    <div class="back-icon-container">
+        <a href="<?= ROOT ?>notifications" class="disable-text-decoration">
+            <i class="fa-solid fa-bell back-icon"></i>
+        </a>
+    </div>
+    <?php endif; ?>
     <div class="center">
         <div class="column">
             <div class="w-50">
@@ -16,7 +23,7 @@
                     <?php if (Auth::isLoggedIn()) : ?>
                         <?= IconLabel::index("fa-solid fa-user", "My Account", "profile") ?>
                         <?= IconLabel::index("fa-solid fa-champagne-glasses", "Create Event", "createEvent") ?>
-                        <?= IconLabel::index("fa-solid fa-people-group", "My Groups") ?>
+                        <?= IconLabel::index("fa-solid fa-people-group", "My Groups", "groups") ?>
                     <?php else : ?>
                         <?= IconLabel::index("fa-solid fa-plus", "Create Account", "login") ?>
                     <?php endif ?>

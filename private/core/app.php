@@ -9,12 +9,13 @@ class App
     public function __construct()
     {
         $URL = $this->getURL();
-        if (file_exists("../private/controllers/" . $URL[0] . "Controller.php")) {
+        
+        if (file_exists("../private/controllers/" . ucfirst($URL[0]) . "Controller.php")) {
             $this->controller = ucfirst($URL[0]);
             unset($URL[0]);
         }
 
-        require "../private/controllers/" . $this->controller . "Controller.php";
+        require "../private/controllers/" . ucfirst($this->controller) . "Controller.php";
         $this->controller = new $this->controller;
 
         if (isset($URL[1])) {

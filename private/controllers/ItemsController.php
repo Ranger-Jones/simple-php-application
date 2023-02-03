@@ -10,8 +10,6 @@ class Items extends Controller
             $this->redirect("home");
         }
 
-
-
         $this->view("item/detail");
     }
 
