@@ -101,8 +101,8 @@ class Model extends Database
         } else if (!in_array($imageExt, $allowed_file_ext)) {
             $this->errors["image"] = "Allowed file formats .jpg, .jpeg and .png.";
 
-        } else if ($files[$inputName]["size"] > 2097152) {
-            $this->errors["image"] = "File is too large. File size should be less than 2 megabytes.";
+        } else if ($files[$inputName]["size"] > 10097152) {
+            $this->errors["image"] = "File is too large. File size should be less than 10 megabytes.";
         } else if (file_exists($targetFilePath)) {
             $this->errors["image"] = "File already exists.";
         } else {
