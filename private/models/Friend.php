@@ -16,7 +16,7 @@ class Friend extends Model
     public function set_initial_values($data)
     {
         $data["pending"] = 1;
-        $data["friends_since"] = date("Y-m-d h:i:s");
+        $data["friends_since"] = date("Y-m-d H:i:s");
         return $data;
     }
 }

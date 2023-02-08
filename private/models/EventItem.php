@@ -51,7 +51,7 @@ class EventItem extends Model
     public function set_initial_values($data)
     {
         $data["added_by"] = Auth::uid();
-        $data["added_date"] = date("Y-m-d h:i:s");
+        $data["added_date"] = date("Y-m-d H:i:s");
         return $data;
     }
 }

@@ -61,8 +61,8 @@ class Item extends Model
     public function set_initial_values($data)
     {
         $data["createdBy"] = Auth::uid();
-        $data["createdAt"] = date("Y-m-d h:i:s");
-        $data["updatedAt"] = date("Y-m-d h:i:s");
+        $data["createdAt"] = date("Y-m-d H:i:s");
+        $data["updatedAt"] = date("Y-m-d H:i:s");
         $data["accepted"] = true;
         return $data;
     }

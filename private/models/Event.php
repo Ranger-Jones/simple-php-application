@@ -117,8 +117,8 @@ class Event extends Model
         $data["type"] = "Casual";
         $data["password"] = "";
         $data["tags"] = "";
-        $data["createdAt"] = date("Y-m-d h:i:s");
-        $data["updatedAt"] = date("Y-m-d h:i:s");
+        $data["createdAt"] = date("Y-m-d H:i:s");
+        $data["updatedAt"] = date("Y-m-d H:i:s");
         $data["createdBy"] = Auth::uid();
         return $data;
     }

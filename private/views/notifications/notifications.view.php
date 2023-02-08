@@ -18,6 +18,9 @@
                     case "info":
                         NotificationContainer::index($notification);
                         break;
+                    case "event_invite_request":
+                        NotificationContainer::eventrequest($notification);
+                        break;
                     default:
                         echo "Undefined notification type";
                         break;

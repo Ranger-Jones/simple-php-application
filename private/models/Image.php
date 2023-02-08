@@ -18,7 +18,7 @@ class Image extends Model
     public function set_initial_values($data)
     {
         $data["status"] = 1;
-        $data["uploaded_on"] = date("Y-m-d h:i:s");
+        $data["uploaded_on"] = date("Y-m-d H:i:s");
         return $data;
     }
 }

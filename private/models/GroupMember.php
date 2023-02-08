@@ -1,6 +1,6 @@
 <?php
 
-class Notification extends Model
+class GroupMember extends Model
 {
     protected $beforeInsert = [
         "set_initial_values",
@@ -8,7 +8,8 @@ class Notification extends Model
 
     protected $allowedColumns = [
         "uid",
-        "role"
+        "role",
+        "group_id"
     ];
 
     protected $table = "group_members";
@@ -16,7 +17,7 @@ class Notification extends Model
 
     public function set_initial_values($data)
     {
-        $data["joined_at"] = date("Y-m-d h:i:s");
+        $data["joined_at"] = date("Y-m-d H:i:s");
         return $data;
     }
 }

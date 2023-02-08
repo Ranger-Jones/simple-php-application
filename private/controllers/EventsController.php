@@ -18,6 +18,8 @@ class Events extends Controller
             } else {
                 $joinedEvents = new JoinedEvent();
                 $likedEvents = new LikedEvent();
+                $friendModel = new Friend();
+                $userModel = new User();
 
                 $uid_list = $joinedEvents->find("event_id", $event_id);
                 $liked_users = $likedEvents->find("event_id", $event_id);
@@ -27,8 +29,27 @@ class Events extends Controller
                 $user_role = "";
                 $isAdmin = false;
                 $user_liked_id = 0;
+                $authUserFriends = [];
 
                 if (Auth::isLoggedIn()) {
+                    $friendRowsA = $friendModel->find("uid_a", Auth::uid());
+                    $friendRowsB = $friendModel->find("uid_b", Auth::uid());
+
+                    foreach ($friendRowsA as $friendRow) {
+                        $userRows = $userModel->find("uid", $friendRow->uid_b);
+
+                        if ($userRows) {
+                            array_push($authUserFriends, $userRows[0]);
+                        }
+                    }
+                    foreach ($friendRowsB as $friendRow) {
+                        $userRows = $userModel->find("uid", $friendRow->uid_a);
+
+                        if ($userRows) {
+                            array_push($authUserFriends, $userRows[0]);
+                        }
+                    }
+
                     if ($uid_list) {
                         foreach ($uid_list as $uid_row) {
                             if ($uid_row->uid == Auth::uid()) {
@@ -117,10 +138,58 @@ class Events extends Controller
                         "user_role" => $user_role,
                         "isAdmin" => $isAdmin,
                         "itemsRaw" => $itemsRaw ? $itemsRaw : array(),
+                        "authUserFriends" => $authUserFriends
                     ]
                 );
             }
         }
+    }
+
+    function joinEvent($eventId = "")
+    {
+        if (empty($eventId) && !Auth::isLoggedIn()) {
+            $this->redirect("login");
+        }
+
+        $joinedEventsModel = new JoinedEvent();
+        $notificationModel = new Notification();
+        $eventModel = new Event();
+        $userJoined = false;
+
+        $joinedEventsRows = $joinedEventsModel->find("uid", Auth::uid());
+
+        foreach ($joinedEventsRows as $joinedEventRow) {
+            if ($joinedEventRow->event_id == $eventId) {
+                $userJoined = true;
+                $joinedEventsModel->delete($joinedEventRow->id);
+            }
+        }
+
+        $notificationRows = $notificationModel->findWhere2("destination_id", "type", "uid", $eventId, "event_invite_request", Auth::uid());
+
+        if ($notificationRows) {
+            $notification = $notificationRows[0];
+            $notificationModel->delete($notification->id);
+        }
+
+        $eventRows = $eventModel->find("event_id", $eventId);
+
+        if ($eventRows) {
+            $event = $eventRows[0];
+            $notificationData["uid"] = $event->createdBy;
+            $notificationData["type"] = "info";
+            $notificationData["content"] = Auth::username() . " joined your event!";
+            $notificationData["destination_id"] = Auth::uid();
+            $notificationData["destination_type"] = "event";
+
+            $notificationModel->insert($notificationData);
+        }
+
+        if (!$userJoined) {
+            $joinedEventsModel->insert(["uid" => Auth::uid(), "event_id" => $eventId, "joined_date" => date("Y-m-d h:i:s"), "role" => "raver",]);
+        }
+
+        $this->redirect("events/" . $eventId);
     }
 
     function comments($eventId = "", $action = "", $commentId = "")
@@ -244,8 +313,6 @@ class Events extends Controller
                     $userToUpdate = $user;
                 }
             }
-
-            echo var_dump($userToUpdate);
 
             if ($userToUpdate) {
                 switch ($action) {

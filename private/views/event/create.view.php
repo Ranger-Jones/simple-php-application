@@ -66,7 +66,7 @@
                     AuthInput::textarea("Can you give some information about your event?", "Description", get_var("description"), "description", "text");
                     break;
                 case "2":
-                    AuthInput::index("Date", "Start Date of our event", get_var("startAt"), "startAt", "date");
+                    AuthInput::datetime("Date", "Start Date of our event", get_var("startAt"), "startAt", "datetime-local", date("Y:m:d"));
                     AuthInput::index("Location", "Location", get_var("location"), "location", "text");
                     AuthInput::toggle(
                         "Public Event",

@@ -11,9 +11,22 @@ class NotificationContainer extends Component
 
     public static function friendrequest($notification)
     {
-        Component::create("notificationcontainer", [
-            "notification" => $notification,
-        ],
-    "notifriendrequest");
+        Component::create(
+            "notificationcontainer",
+            [
+                "notification" => $notification,
+            ],
+            "notifriendrequest"
+        );
+    }
+    public static function eventrequest($notification)
+    {
+        Component::create(
+            "notificationcontainer",
+            [
+                "notification" => $notification,
+            ],
+            "notieventrequest"
+        );
     }
 }

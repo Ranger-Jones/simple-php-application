@@ -5,7 +5,7 @@
             <i class="fa <?php echo empty($search) ? "fa-home" : "fa-arrow-left" ?> back-icon"></i>
         </a>
     </div>
-    <?php if ($event->startAt < date("Y-m-d")) : ?>
+    <?php if ($event->startAt < date("Y-m-d H:i:s")) : ?>
 
         <div class="firework z-10"></div>
         <div class="firework z-10"></div>
@@ -69,10 +69,10 @@
                         </form>
                     </div>
                 </div>
-                <div class="row justify-content-between w-40">
+                <div class="row justify-content-between w-40 m-b-1 m-t-1">
                     <p>
                         <i class="fa-solid fa-calendar"></i>
-                        <?= $event->createdAt ?>
+                        <?= $event->startAt ?>
                     </p>
                     <p>
                         <i class="fa-solid fa-map-location-dot"></i>
@@ -107,7 +107,18 @@
                 </div>
                 <p><?= $event->description ?></p>
 
-
+                <hr class="m-t-1 m-b-1">
+                <div class="row center-horizontal">
+                    <?php if ($user_joined) : ?>
+                        <?= IconLabel::button("fa-solid fa-arrow-up-from-bracket", "Invite Friends", "small", "invite") ?>
+                        <?= IconLabel::index("fa-solid fa-joint", $user_joined ? "Leave the Rave" : "Join the Rave", "events/joinEvent/" . $event->event_id, "small") ?>
+                        <?= IconLabel::index("fa-solid fa-image", "Images", "#", "small") ?>
+                        <?= IconLabel::index("fa-regular fa-square-plus", "Add Item", "items/add/" . $event->event_id . "/" . $search . "/", "small") ?>
+                    <?php else : ?>
+                        <?= IconLabel::index("fa-solid fa-joint", "Join the Rave", "events/joinEvent/" . $event->event_id, "small") ?>
+                    <?php endif; ?>
+                </div>
+                <hr class="m-t-1 m-b-1">
                 <div class="row align-items-center">
                     <h3>Item</h3>
                     <?php if ($user_joined) : ?>
@@ -165,7 +176,7 @@
                 <?php else : ?>
                     <p>No items added</p>
                 <?php endif; ?>
-
+                <hr class="m-t-1 m-b-1">
                 <form method="post" name="commentForm">
                     <h3>Comments</h3>
                     <?= AuthInput::index("Write something cool", "", get_var("content"), "content", "text", "comment") ?>
@@ -189,8 +200,34 @@
             </div>
         </div>
     </div>
+
+</div>
+<div id="inviteModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Invite your friends</h3>
+        <?php foreach ($authUserFriends as $authUserFriend) : ?>
+            <div class="row justify-content-between m-b-1 align-items-center" style="width: 100%;">
+                <h4><?= $authUserFriend->username ?></h4>
+                <button class="invite-user-button" onclick="inviteUser('<?= $authUserFriend->uid ?>','<?= $authUserFriend->username ?>')" id="<?= $authUserFriend->username ?>"><i class="fa-solid fa-user-check m-r-1 text-color"></i>Invite</button>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>
 
+<script>
+    function inviteUser(uid, username) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById(username).innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET", "<?php echo AJAXREQUEST; ?>" + "/inviteuser/" + uid + "/" + "<?php echo $event->event_id; ?>", true);
+        xmlhttp.send();
+
+    }
+</script>
 <script>
     var countDownDate = new Date("<?= $event->startAt ?>").getTime();
 
@@ -227,6 +264,29 @@
         if (keyCode == 13) {
             document.commentForm.submit();
             content.style.disabled = true;
+        }
+    }
+</script>
+<script>
+    var modal = document.getElementById("inviteModal");
+
+    // Get the button that opens the modal
+    var inviteBtn = document.getElementById("invite");
+
+    // Get the <span> element that closes the modal
+    var closeModal = document.getElementsByClassName("close")[0];
+
+    inviteBtn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    closeModal.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
     }
 </script>

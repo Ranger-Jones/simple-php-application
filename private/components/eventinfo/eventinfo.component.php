@@ -13,7 +13,7 @@
         <div class="row m-l-2 m-t-2 hp-100 align-items-baseline justify-content-between event-info-icons-container" style="width: 100%;">
             <p>
                 <i class="fa-solid fa-calendar"></i>
-                <?= $event->createdAt ?>
+                <?= $event->startAt ?>
             </p>
             <p>
                 <i class="fa-solid fa-map-location-dot"></i>

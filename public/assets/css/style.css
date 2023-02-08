@@ -5,6 +5,7 @@
 @import "./paddings.css";
 @import "./buttons.css";
 @import "./sizes.css";
+@import "./modal.css";
 
 * {
   margin: 0;
@@ -77,6 +78,27 @@
   font-size: 64px;
   padding: 0.2em 5rem;
 }
+
+.large-icon {
+  font-size: 64px;
+}
+
+.medium-icon {
+  font-size: 48px;
+}
+
+.small-icon {
+  font-size: 32px;
+}
+.nano-icon {
+  font-size: 32px;
+}
+
+.group-preview-photo {
+  width: 128px;
+  height: 128px;
+}
+
 .home-icon-label {
   transition: color 0.5s cubic-bezier(0.895, 0.03, 0.685, 0.22);
 }
@@ -587,7 +609,7 @@ input.check-toggle:checked + .slider:before {
   color: var(--error-color);
 }
 
-.break-word{
+.break-word {
   word-wrap: break-word;
 }
 

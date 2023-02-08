@@ -71,6 +71,21 @@ class Model extends Database
         return $this->query($query, ["value" => $value]);
     }
 
+    public function findWhere($column, $column2, $value, $value2, $orderBy = "", $desc = false)
+    {
+        $descStr = $desc ? " DESC" : "";
+        $orderByStr = empty($orderBy) ? "" : " ORDER BY " . $orderBy;
+        $query = "SELECT * FROM $this->table WHERE $column = :value AND $column2 = :value2" . $orderByStr . $descStr;
+        return $this->query($query, ["value" => $value, "value2" => $value2]);
+    }
+    public function findWhere2($column, $column2, $column3, $value, $value2, $value3, $orderBy = "", $desc = false)
+    {
+        $descStr = $desc ? " DESC" : "";
+        $orderByStr = empty($orderBy) ? "" : " ORDER BY " . $orderBy;
+        $query = "SELECT * FROM $this->table WHERE $column = :value AND $column2 = :value2 AND $column3 = :value3" . $orderByStr . $descStr;
+        return $this->query($query, ["value" => $value, "value2" => $value2, "value3" => $value3]);
+    }
+
     public function search($searchColumns, $search)
     {
         $query = "SELECT * FROM $this->table 
@@ -100,7 +115,6 @@ class Model extends Database
             $this->errors["image"] = "Select image to upload.";
         } else if (!in_array($imageExt, $allowed_file_ext)) {
             $this->errors["image"] = "Allowed file formats .jpg, .jpeg and .png.";
-
         } else if ($files[$inputName]["size"] > 10097152) {
             $this->errors["image"] = "File is too large. File size should be less than 10 megabytes.";
         } else if (file_exists($targetFilePath)) {

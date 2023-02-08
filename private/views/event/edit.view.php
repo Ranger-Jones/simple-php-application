@@ -10,7 +10,7 @@
             <?php if ($field == "description") : ?>
                 <?= AuthInput::textarea("Type a " . ucfirst($field), ucfirst($field), get_var($field), $field, "text") ?>
             <?php elseif ($field == "startAt") : ?>
-                <?= AuthInput::index("Type a " . ucfirst($field), ucfirst($field), get_var($field), $field, "date") ?>
+                <?= AuthInput::datetime("Type a " . ucfirst($field), ucfirst($field), get_var($field), $field, "datetime-local", date("Y-m-d")) ?>
             <?php else : ?>
                 <?= AuthInput::index("Type a " . ucfirst($field), ucfirst($field), get_var($field), $field, "text") ?>
             <?php endif; ?>

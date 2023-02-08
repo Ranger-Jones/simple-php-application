@@ -109,8 +109,8 @@ class User extends Model
         $data["description"] = "";
         $data["level"] = 1;
         $data["location"] = "Hannover";
-        $data["createdAt"] = date("Y-m-d h:i:s");
-        $data["updatedAt"] = date("Y-m-d h:i:s");
+        $data["createdAt"] = date("Y-m-d H:i:s");
+        $data["updatedAt"] = date("Y-m-d H:i:s");
         $data["student"] = true;
         return $data;
     }

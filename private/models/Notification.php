@@ -31,7 +31,7 @@ class Notification extends Model
     public function set_initial_values($data)
     {
         $data["status"] = 1;
-        $data["added_date"] = date("Y-m-d h:i:s");
+        $data["added_date"] = date("Y-m-d H:i:s");
         return $data;
     }
 }

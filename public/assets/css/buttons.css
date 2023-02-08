@@ -57,3 +57,18 @@
   background-color: var(--background-color);
   cursor: pointer;
 }
+
+.invite-user-button {
+  border-radius: 1em;
+  border-width: 2px;
+  border-color: var(--primary-color);
+  background-color: var(--background-color);
+  padding: 1em;
+  cursor: pointer;
+
+  color: var(--text-color);
+}
+
+.invite-user-button:hover {
+  background-color: var(--primary-color);
+}

@@ -42,7 +42,7 @@ class Comment extends Model
     public function set_initial_values($data)
     {
         $data["created_by"] = Auth::uid();
-        $data["posted_at"] = date("Y-m-d h:i:s");
+        $data["posted_at"] = date("Y-m-d H:i:s");
         return $data;
     }
 }

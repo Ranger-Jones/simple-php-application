@@ -16,6 +16,22 @@ class AuthInput extends Component
             ]
         );
     }
+    public static function datetime($placeholder, $label, $value, $name, $type, $min, $id = "")
+    {
+        Component::create(
+            "authinput",
+            [
+                "placeholder" => $placeholder,
+                "label" => $label,
+                "value" => $value,
+                "name" => $name,
+                "type" => $type,
+                "id" => $id,
+                "min" => $min,
+            ],
+            "authdate"
+        );
+    }
 
     public static function toggle($label, $name, $checked, $value)
     {

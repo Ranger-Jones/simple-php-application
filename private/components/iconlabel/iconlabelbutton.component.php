@@ -1,4 +1,4 @@
-<a class="disable-text-decoration" href="<?= ROOT ?><?= $link ?>" id="<?= $id ?>">
+<button class="disable-button-style" id="<?= $id ?>">
     <div class="icon-label-container">
         <?php switch ($size):
             case "large": ?>
@@ -25,4 +25,4 @@
         endswitch; ?>
 
     </div>
-</a>
+</button>
