@@ -1,12 +1,12 @@
 <?php $this->view("includes/header"); ?>
 
-<div class="container position-absolute">
+<div class="container position-absolute disable-overflow-x w-100">
     <div class="back-icon-container">
         <a href="<?= ROOT ?>home" class="disable-text-decoration">
             <i class="fa fa-home back-icon"></i>
         </a>
     </div>
-    <div class="center-horizontal">
+    <div class="center-horizontal disable-overflow-x">
         <form method="post" enctype="multipart/form-data">
             <h3 class="text-center m-t-5">Sign up</h3>
             <?= AuthInput::index("Profile Picture", "Profile Picture", get_var("photoUrl"), "photoUrl", "file") ?>

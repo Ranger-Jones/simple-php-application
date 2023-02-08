@@ -224,9 +224,10 @@ class Events extends Controller
         }
 
         if (empty($action) || empty($commentId)) {
+            var_dump($action);
             $this->redirect("events/" . $eventId);
         }
-
+        var_dump($action);
         $joinedEventModel = new JoinedEvent();
         $joinedEventResults = $joinedEventModel->find("event_id", $eventId);
 
