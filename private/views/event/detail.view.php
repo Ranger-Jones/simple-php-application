@@ -179,7 +179,9 @@
                 <hr class="m-t-1 m-b-1">
                 <form method="post" name="commentForm">
                     <h3>Comments</h3>
-                    <?= AuthInput::index("Write something cool", "", get_var("content"), "content", "text", "comment") ?>
+                    <?php if ($user_joined) : ?>
+                        <?= AuthInput::index("Write something cool", "", get_var("content"), "content", "text", "comment") ?>
+                    <?php endif; ?>
                 </form>
                 <div class="m-b-1"></div>
                 <?php if ($comments) : ?>
@@ -187,11 +189,13 @@
                         $userModel = new User();
                         $creator = $userModel->find("uid", $comment->created_by)[0];
                     ?>
-                        <div class="row">
+                        <div class="row justify-content-between" style="width: 100%;">
                             <h4><?= $creator->username ?></h4>
-                            <a href="<?= ROOT ?>events/comments/<?= $event->event_id ?>/del/<?= $comment->comment_id ?>">
-                                <h4><i class="fa-solid fa-trash change-color-on-hover-error m-l-1"></i></h4>
-                            </a>
+                            <?php if ($isAdmin) : ?>
+                                <a href="<?= ROOT ?>events/comments/<?= $event->event_id ?>/del/<?= $comment->comment_id ?>">
+                                    <h4><i class="fa-solid fa-trash change-color-on-hover-error m-l-1"></i></h4>
+                                </a>
+                            <?php endif; ?>
                         </div>
                         <p class="break-word m-r-1"><?= $comment->content ?></p>
                     <?php endforeach; ?>
@@ -205,12 +209,14 @@
 <div id="inviteModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h3>Invite your friends</h3>
-        <button name="link" onclick="copyToClipboard('<?=$link?>')" class="event-join-button">
-            <h4>
-                <i class="fa-solid fa-joint"></i> Invite Link
-            </h4>
-        </button>
+        <div class="row m-b-1">
+            <h3>Invite your friends</h3>
+            <button id="copy" name="link" onclick="copyToClipboard('<?= $link ?>')" class="copy-button m-l-1">
+                <p>
+                    <i class="fa-solid fa-copy"></i> Copy link
+                </p>
+            </button>
+        </div>
         <?php foreach ($authUserFriends as $authUserFriend) : ?>
             <div class="row justify-content-between m-b-1 align-items-center" style="width: 100%;">
                 <h4><?= $authUserFriend->username ?></h4>
@@ -281,13 +287,13 @@
     // Get the <span> element that closes the modal
     var closeModal = document.getElementsByClassName("close")[0];
 
-    function copyToClipboard(text) 
-    {
-    navigator.clipboard.writeText(text).then(function() {
-    console.log('Copying to clipboard was successful!');
-    }, function(err) {
-    console.error('Could not copy text: ', err);
-    });
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function() {
+            console.log('Copying to clipboard was successful!');
+            document.getElementById("copy").innerHTML = "<p> <i class = 'fa-solid fa-copy'></i> Copied! </p>";
+        }, function(err) {
+            console.error('Could not copy text: ', err);
+        });
     }
 
     inviteBtn.onclick = function() {

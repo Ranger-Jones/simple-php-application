@@ -58,6 +58,22 @@
   cursor: pointer;
 }
 
+.copy-button {
+  border-radius: 1rem;
+  z-index: 8;
+  padding: 0.25em;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  transition: 0.25s all ease-in-out;
+}
+
+.copy-button:hover {
+  background-color: var(--text-color);
+}
+.copy-button:hover p {
+  color: var(--text-primary);
+}
+
 .invite-user-button {
   border-radius: 1em;
   border-width: 2px;
