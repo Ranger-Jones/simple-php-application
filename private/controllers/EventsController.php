@@ -30,11 +30,13 @@ class Events extends Controller
                 $isAdmin = false;
                 $user_liked_id = 0;
                 $authUserFriends = [];
+                $link = $this->createlink($event_id);
 
                 if (Auth::isLoggedIn()) {
                     $friendRowsA = $friendModel->find("uid_a", Auth::uid());
                     $friendRowsB = $friendModel->find("uid_b", Auth::uid());
-
+                if($friendRowsA)
+                {
                     foreach ($friendRowsA as $friendRow) {
                         $userRows = $userModel->find("uid", $friendRow->uid_b);
 
@@ -42,6 +44,9 @@ class Events extends Controller
                             array_push($authUserFriends, $userRows[0]);
                         }
                     }
+                }
+                if($friendRowsB)
+                {
                     foreach ($friendRowsB as $friendRow) {
                         $userRows = $userModel->find("uid", $friendRow->uid_a);
 
@@ -49,6 +54,7 @@ class Events extends Controller
                             array_push($authUserFriends, $userRows[0]);
                         }
                     }
+                }
 
                     if ($uid_list) {
                         foreach ($uid_list as $uid_row) {
@@ -94,6 +100,10 @@ class Events extends Controller
                     $notifications["Not logged in"] = "To join an event you need to be logged in! <a href='" . ROOT . "login' class='disable-text-decoration text-bold text-color'>Follow this link to login.</a>";
                 }
 
+                
+                    
+                
+
                 $commentModel = new Comment();
                 if (!empty($_POST["content"])) {
                     if ($commentModel->validate($_POST)) {
@@ -117,6 +127,8 @@ class Events extends Controller
                     $search = urldecode($search);
                 }
 
+                
+
                 $eventItemModel = new EventItem();
                 $itemRawModel = new Item();
                 $items = $eventItemModel->find("event_id", $event_result->event_id);
@@ -138,11 +150,19 @@ class Events extends Controller
                         "user_role" => $user_role,
                         "isAdmin" => $isAdmin,
                         "itemsRaw" => $itemsRaw ? $itemsRaw : array(),
-                        "authUserFriends" => $authUserFriends
+                        "authUserFriends" => $authUserFriends,
+                        "link" => $link
                     ]
                 );
+                  
             }
         }
+    }
+
+    function createlink($eventId = ""){
+
+        $link = ROOT . "events/" . $eventId;
+        return $link;
     }
 
     function joinEvent($eventId = "")

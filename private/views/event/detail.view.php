@@ -206,6 +206,11 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h3>Invite your friends</h3>
+        <button name="link" onclick="copyToClipboard('<?=$link?>')" class="event-join-button">
+            <h4>
+                <i class="fa-solid fa-joint"></i> Invite Link
+            </h4>
+        </button>
         <?php foreach ($authUserFriends as $authUserFriend) : ?>
             <div class="row justify-content-between m-b-1 align-items-center" style="width: 100%;">
                 <h4><?= $authUserFriend->username ?></h4>
@@ -275,6 +280,15 @@
 
     // Get the <span> element that closes the modal
     var closeModal = document.getElementsByClassName("close")[0];
+
+    function copyToClipboard(text) 
+    {
+    navigator.clipboard.writeText(text).then(function() {
+    console.log('Copying to clipboard was successful!');
+    }, function(err) {
+    console.error('Could not copy text: ', err);
+    });
+    }
 
     inviteBtn.onclick = function() {
         modal.style.display = "block";
