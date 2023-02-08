@@ -1,0 +1,8 @@
+:root {
+  --primary-color: #a29bfe;
+  --secondary-color: #ffeaa7;
+  --text-color: #dfe6e9;
+  --background-color: #181818;
+  --error-color: #ff7675;
+  --background-color-50: rgba(45, 52, 54, 0.5);
+}
