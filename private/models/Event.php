@@ -56,8 +56,26 @@ class Event extends Model
     {
         $errors = array();
 
+        $target_dir = UPLOADDIR . "thumbnails" . "/";
+        $target_file = basename($files["thumbnail"]["name"]);
+        $targetFilePath = $target_dir . $target_file;
+        $imageExt = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+
+        $allowed_file_ext = array("jpg", "jpeg", "png");
+
         if (empty($files["thumbnail"]["name"])) {
             $errors["thumbnail"] = "Please select a thumbnail!";
+        }
+
+        if (!file_exists($files["thumbnail"]["tmp_name"])) {
+            $errors["image"] = "Select image to upload.";
+        }
+        if (!in_array($imageExt, $allowed_file_ext)) {
+            $errors["image"] = "Allowed file formats .jpg, .jpeg and .png.";
+        } else if ($files["thumbnail"]["size"] > 10097152) {
+            $errors["image"] = "File is too large. File size should be less than 10 megabytes.";
+        } else if (file_exists($targetFilePath)) {
+            $errors["image"] = "File already exists.";
         }
 
         return $errors;

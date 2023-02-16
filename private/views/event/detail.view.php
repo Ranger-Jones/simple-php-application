@@ -27,12 +27,12 @@
 
     </div>
     <div class="row">
-        <div class="column w-35 h-100 position-relative">
-            <img src="<?= $thumbnailSrc ?>" alt="" class="event-detail-image position-fixed">
+        <div class="column w-35 h-100 position-relative" id="thumbnailSide">
+            <img src="<?= $thumbnailSrc ?>" alt="" class="event-detail-image position-fixed w-35 h-100">
             <div class="position-fixed w-35" style="top:40%; justify-content: center;">
                 <div class="p-1 m-r-4 m-l-2 countdown-text-container rounded-corners row">
                     <div class="center-horizontal">
-                        <h2 id="demo" class="text-bold text-center">Loading...</h2>
+                        <h2 id="dateLeft" class="text-bold text-center">Loading...</h2>
                         <?php if ($isAdmin) : ?>
                             <div class="align-items-center m-l-1">
                                 <a href="<?= ROOT ?>events/edit/<?= $event->event_id ?>/startAt" class="disable-text-decoration cursor-pointer">
@@ -46,8 +46,30 @@
                 </div>
             </div>
         </div>
-        <div class="column w-60">
-            <div class="ms-l-4">
+        <div class="column" id="eventContent">
+            <div class="row">
+                <div class="w-100 h-30 position-relative" id="thumbnailTop">
+                    <img src="<?= $thumbnailSrc ?>" alt="" class="event-detail-image w-100 position-absolute h-30">
+                    <div class="w-100 h-30 column align-items-center justify-content-center" style="justify-content: center;">
+                        <div class="p-1 m-r-4 m-l-2 countdown-text-container rounded-corners row">
+                            <div class="center-horizontal">
+                                <h2 id="dateTop" class="text-bold text-center">Loading...</h2>
+                                <?php if ($isAdmin) : ?>
+                                    <div class="align-items-center m-l-1">
+                                        <a href="<?= ROOT ?>events/edit/<?= $event->event_id ?>/startAt" class="disable-text-decoration cursor-pointer">
+                                            <h2 class="change-color-on-hover">
+                                                <i class="fa-solid fa-edit"></i>
+                                            </h2>
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-h-2">
                 <div class="row">
                     <h1 class="text-secondary"><?= $event->title ?></h1>
                     <?php if ($isAdmin) : ?>
@@ -59,7 +81,7 @@
                             </a>
                         </div>
                     <?php endif; ?>
-                    <div class="align-items-center m-l-2">
+                    <!--  <div class="align-items-center">
                         <form method="post">
                             <button name="joined" type="submit" class="event-join-button">
                                 <h4>
@@ -67,9 +89,9 @@
                                 </h4>
                             </button>
                         </form>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="row justify-content-between w-40 m-b-1 m-t-1">
+                <div class="grid-container m-b-1 m-t-1 w-100" style="width: 100%;">
                     <p>
                         <i class="fa-solid fa-calendar"></i>
                         <?= $event->startAt ?>
@@ -96,7 +118,7 @@
                 <div class="row">
                     <h3>Description</h3>
                     <?php if ($isAdmin) : ?>
-                        <div class="align-items-center m-l-1">
+                        <div class="align-items-center m-l-2">
                             <a href="<?= ROOT ?>events/edit/<?= $event->event_id ?>/description" class="disable-text-decoration cursor-pointer">
                                 <p class="change-color-on-hover">
                                     <i class="fa-solid fa-edit"></i>
@@ -108,7 +130,7 @@
                 <p><?= $event->description ?></p>
 
                 <hr class="m-t-1 m-b-1">
-                <div class="row center-horizontal">
+                <div class="grid-container justify-content-center">
                     <?php if ($user_joined) : ?>
                         <?= IconLabel::button("fa-solid fa-arrow-up-from-bracket", "Invite Friends", "small", "invite") ?>
                         <?= IconLabel::index("fa-solid fa-joint", $user_joined ? "Leave the Rave" : "Join the Rave", "events/joinEvent/" . $event->event_id, "small") ?>
@@ -253,12 +275,20 @@
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById("demo").innerHTML = days + "d " + hours + "h " +
+        document.getElementById("dateLeft").innerHTML = days + "d " + hours + "h " +
             minutes + "m " + seconds + "s ";
 
         if (distance < 0) {
             clearInterval(x);
-            document.getElementById("demo").innerHTML = "Event is over";
+            document.getElementById("dateLeft").innerHTML = "Event is over";
+        }
+
+        document.getElementById("dateTop").innerHTML = days + "d " + hours + "h " +
+            minutes + "m " + seconds + "s ";
+
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("dateTop").innerHTML = "Event is over";
         }
     }, 1000);
 
@@ -277,6 +307,36 @@
             content.style.disabled = true;
         }
     }
+</script>
+<script>
+    var thumbnailSide = document.getElementById("thumbnailSide");
+    var eventContent = document.getElementById("eventContent");
+    var thumbnailTop = document.getElementById("thumbnailTop");
+
+    function responsiveDesign() {
+        if (window.screen.width < 1000) {
+            thumbnailSide.style.display = "none";
+            thumbnailTop.style.display = "block";
+            eventContent.classList.add("w-100");
+            eventContent.classList.remove("w-60");
+        } else {
+            thumbnailSide.style.display = "block";
+            thumbnailTop.style.display = "none";
+            eventContent.classList.add("w-60");
+            eventContent.classList.remove("w-100");
+        }
+    }
+
+    responsiveDesign();
+
+
+    addEventListener("resize", (event) => {
+        responsiveDesign();
+    });
+
+    onresize = (event) => {
+        responsiveDesign();
+    };
 </script>
 <script>
     var modal = document.getElementById("inviteModal");
