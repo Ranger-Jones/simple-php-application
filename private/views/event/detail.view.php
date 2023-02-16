@@ -273,14 +273,6 @@
     }
 </script>
 <script>
-    var modal = document.getElementById("inviteModal");
-
-    // Get the button that opens the modal
-    var inviteBtn = document.getElementById("invite");
-
-    // Get the <span> element that closes the modal
-    var closeModal = document.getElementsByClassName("close")[0];
-
     function copyToClipboard(text) 
     {
     navigator.clipboard.writeText(text).then(function() {
@@ -289,6 +281,11 @@
     console.error('Could not copy text: ', err);
     });
     }
+    
+    var modal = document.getElementById("inviteModal");
+    var inviteBtn = document.getElementById("invite");
+    var closeModal = document.getElementsByClassName("close")[0];
+
 
     inviteBtn.onclick = function() {
         modal.style.display = "block";

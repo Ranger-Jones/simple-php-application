@@ -61,4 +61,63 @@ class Groups extends Controller
             "errors" => $errors,
         ]);
     }
+
+    function detail($groupId = ""){
+        if(!Auth::isLoggedIn()){
+            $this->redirect("login");
+        }
+
+        $groupModel = new Group();
+        $groupMemberModel = new GroupMember();
+        $friendModel = new Friend();
+        $userModel = new User();
+
+        $groupRows = $groupModel->find("group_id", $groupId);
+
+        if($groupRows){
+            $group = $groupRows[0];
+
+            $groupMemberRows = $groupMemberModel->find("group_id", $groupId);
+            $groupMembers = array();
+
+            if($groupMemberRows){
+                $groupMembers = $groupMemberRows;
+            }
+
+            $groupThumbnail = get_image($group->thumbnail, "group_thumbnails");
+
+            $friendRowsA = $friendModel->find("uid_a", Auth::uid());
+            $friendRowsB = $friendModel->find("uid_b", Auth::uid());
+
+            $authUserFriends = array();
+
+            if ($friendRowsA) {
+                foreach ($friendRowsA as $friendRow) {
+                    $userRows = $userModel->find("uid", $friendRow->uid_b);
+
+                    if ($userRows) {
+                        array_push($authUserFriends, $userRows[0]);
+                    }
+                }
+            }
+            if ($friendRowsB) {
+                foreach ($friendRowsB as $friendRow) {
+                    $userRows = $userModel->find("uid", $friendRow->uid_a);
+
+                    if ($userRows) {
+                        array_push($authUserFriends, $userRows[0]);
+                    }
+                }
+            }
+
+            $this->view("groups/detail", [
+                "group" => $group, 
+                "groupMembers" => $groupMembers, 
+                "groupThumbnail" => $groupThumbnail,
+                "authUserFriends" => $authUserFriends,
+            ]);
+        }else{
+            $this->redirect("groups");
+        }
+    }
 }

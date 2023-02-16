@@ -31,7 +31,6 @@ class Database
                 }
             }
         }
-
         return false;
     }
 }
